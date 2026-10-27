@@ -2,13 +2,66 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProntosJá</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <title>ProntosJá - Cardápio</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ── Perfil: inputs editáveis ── */
+        .detalhe-input {
+            border: none;
+            border-bottom: 1.5px solid #e0e0e0;
+            outline: none;
+            font-size: 14px;
+            color: var(--text-main, #111);
+            background: transparent;
+            width: 100%;
+            padding: 4px 0;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+        .detalhe-input:focus {
+            border-bottom-color: var(--primary, #e50615);
+        }
+        .perfil-foto {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            background-color: #f0f0f0;
+        }
+        .perfil-email-sub {
+            font-size: 13px;
+            color: #888;
+            margin-top: 2px;
+            display: block;
+        }
+        .btn-salvar-perfil {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: calc(100% - 32px);
+            margin: 16px 16px 0;
+            padding: 14px;
+            background: var(--primary, #e50615);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: inherit;
+        }
+        .btn-salvar-perfil:active {
+            opacity: 0.85;
+        }
+    </style>
 </head>
 <body>
     <div class="phone-container">
@@ -28,7 +81,7 @@
                 </div>
             </section>
 
-            <!-- TELA 2: SELEÇÃO (Cliente ou Empresa) -->
+            <!-- TELA 2: SELEÇÃO -->
             <section id="tela-2" class="tela">
                 <div class="tela-conteudo">
                     <div class="selecao-logo"></div>
@@ -47,7 +100,7 @@
                 </div>
             </section>
 
-            <!-- TELA LOGIN: LOGIN COM GOOGLE -->
+            <!-- TELA LOGIN -->
             <section id="tela-login" class="tela">
                 <div class="tela-cabecalho">
                     <button onclick="mudarTela('tela-2')" class="btn-voltar">
@@ -55,13 +108,40 @@
                     </button>
                     <h1>Entrar</h1>
                 </div>
-                <div class="tela-conteudo" style="justify-content: center; gap: 20px;">
-                    <div class="empresa-logo" style="width: 80px; height: 80px; background: rgba(229,6,21,0.1); border-radius: 50%;">
-                        <span class="material-symbols-outlined" style="font-size: 40px; color: var(--primary);">google</span>
+                <div class="tela-conteudo" style="justify-content: center; gap: 16px;">
+                    <div class="empresa-logo" style="width: 70px; height: 70px; background: rgba(229,6,21,0.1); border-radius: 50%;">
+                        <span class="material-symbols-outlined" style="font-size: 34px; color: var(--primary);">person</span>
                     </div>
-                    <h2>Bem-vindo ao ProntosJá</h2>
-                    <p style="text-align: center; max-width: 250px;">Continue com sua conta Google para acessar o aplicativo</p>
-                    <div class="selecao-botoes">
+                    <h2 style="margin:0;">Bem-vindo ao ProntosJá</h2>
+                    <p style="text-align: center; max-width: 260px; margin:0;">Entre com e-mail e senha ou continue com o Google</p>
+
+                    <div class="tela-formulario" style="width:100%;">
+                        <div class="campo-input">
+                            <label>E-mail</label>
+                            <div class="input-wrapper">
+                                <span class="material-symbols-outlined">mail</span>
+                                <input type="email" id="loginEmail" placeholder="exemplo@email.com">
+                            </div>
+                        </div>
+                        <div class="campo-input">
+                            <label>Senha</label>
+                            <div class="input-wrapper">
+                                <span class="material-symbols-outlined">lock</span>
+                                <input type="password" id="loginSenha" placeholder="••••••••">
+                                <button type="button" class="btn-visibilidade"><span class="material-symbols-outlined">visibility</span></button>
+                            </div>
+                        </div>
+                        <p id="loginErro" style="color:#dc2626; font-size:13px; text-align:center; display:none; margin:0 0 8px;"></p>
+                        <button onclick="loginComEmailSenha()" class="btn-principal">Entrar</button>
+                    </div>
+
+                    <div style="display:flex; align-items:center; gap:10px; width:100%; margin:4px 0;">
+                        <div style="flex:1; height:1px; background:#e5e5e5;"></div>
+                        <span style="font-size:12px; color:#999;">ou</span>
+                        <div style="flex:1; height:1px; background:#e5e5e5;"></div>
+                    </div>
+
+                    <div class="selecao-botoes" style="width:100%;">
                         <button class="btn-google" onclick="loginComGoogle()">
                             <svg class="google-icon" viewBox="0 0 24 24">
                                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"></path>
@@ -72,69 +152,80 @@
                             <span>Continuar com Google</span>
                         </button>
                     </div>
+
+                    <p style="text-align:center; font-size:13px; margin-top:4px;">
+                        Não tem conta?
+                        <a href="javascript:void(0)" onclick="irParaCadastro()" style="color:var(--primary,#e50615); font-weight:600; text-decoration:none;">Cadastre-se</a>
+                    </p>
                 </div>
             </section>
 
-            <!-- TELA 3: CADASTRO CLIENTE (sem Google) -->
+            <!-- TELA 3: CADASTRO CLIENTE -->
             <section id="tela-3" class="tela">
                 <div class="tela-cabecalho">
-                    <button onclick="mudarTela('tela-2')" class="btn-voltar">
+                    <button onclick="mudarTela('tela-login')" class="btn-voltar">
                         <span class="material-symbols-outlined">arrow_back</span>
                     </button>
                     <h1>Crie sua conta</h1>
                 </div>
                 <div class="tela-abas">
-                    <button class="aba ativa">Sou Cliente</button>
-                    <button onclick="mudarTela('tela-4')" class="aba">Sou Empresa</button>
+                    <button onclick="irParaCadastroTipo('cliente')" class="aba ativa" id="aba-cliente">Sou Cliente</button>
+                    <button onclick="irParaCadastroTipo('empresa')" class="aba" id="aba-empresa-link">Sou Empresa</button>
                 </div>
                 <div class="tela-formulario">
                     <div class="campo-input">
                         <label>Nome Completo</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined">person</span>
-                            <input type="text" placeholder="Digite seu nome">
+                            <input type="text" id="cadNome" placeholder="Digite seu nome">
                         </div>
                     </div>
                     <div class="campo-input">
                         <label>E-mail</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined">mail</span>
-                            <input type="email" placeholder="exemplo@email.com">
+                            <input type="email" id="cadEmail" placeholder="exemplo@email.com">
                         </div>
                     </div>
                     <div class="campo-input">
                         <label>Telefone</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined">call</span>
-                            <input type="tel" placeholder="(XX) XXXXX-XXXX">
+                            <input type="tel" id="cadTelefone" placeholder="(XX) XXXXX-XXXX">
                         </div>
                     </div>
                     <div class="campo-input">
                         <label>Localidade</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined">location_on</span>
-                            <input type="text" placeholder="Cidade ou CEP">
+                            <input type="text" id="cadLocalidade" placeholder="Cidade ou CEP">
                         </div>
                     </div>
                     <div class="campo-input">
                         <label>Senha</label>
                         <div class="input-wrapper">
                             <span class="material-symbols-outlined">lock</span>
-                            <input type="password" placeholder="••••••••">
-                            <button class="btn-visibilidade"><span class="material-symbols-outlined">visibility</span></button>
+                            <input type="password" id="cadSenha" placeholder="••••••••">
+                            <button type="button" class="btn-visibilidade"><span class="material-symbols-outlined">visibility</span></button>
                         </div>
+                        <p class="info-senha">Mínimo de 8 caracteres.</p>
                     </div>
-                    <button onclick="mudarTela('tela-5')" class="btn-principal">Cadastrar</button>
+                    <p id="cadClienteErro" style="color:#dc2626; font-size:13px; text-align:center; display:none;"></p>
+                    <button id="btnCadastrarCliente" onclick="cadastrarCliente()" class="btn-principal">Cadastrar</button>
                 </div>
             </section>
 
             <!-- TELA 4: CADASTRO EMPRESA -->
             <section id="tela-4" class="tela">
                 <div class="tela-cabecalho">
-                    <button onclick="mudarTela('tela-2')" class="btn-voltar">
+                    <button onclick="mudarTela('tela-login')" class="btn-voltar">
                         <span class="material-symbols-outlined">arrow_back</span>
                     </button>
                     <h1>Cadastro Empresa</h1>
+                </div>
+                <div class="tela-abas">
+                    <button onclick="irParaCadastroTipo('cliente')" class="aba">Sou Cliente</button>
+                    <button onclick="irParaCadastroTipo('empresa')" class="aba ativa" id="aba-empresa">Sou Empresa</button>
                 </div>
                 <div class="tela-conteudo empresa-conteudo">
                     <div class="empresa-logo"><span class="material-symbols-outlined">storefront</span></div>
@@ -144,25 +235,34 @@
                             <label>Nome da Loja</label>
                             <div class="input-wrapper">
                                 <span class="material-symbols-outlined">store</span>
-                                <input type="text" placeholder="Ex: Pizzaria do João">
+                                <input type="text" id="empNome" placeholder="Ex: Pizzaria do João">
+                            </div>
+                        </div>
+                        <div class="campo-input">
+                            <label>E-mail</label>
+                            <div class="input-wrapper">
+                                <span class="material-symbols-outlined">mail</span>
+                                <input type="email" id="empEmail" placeholder="contato@sualoja.com">
                             </div>
                         </div>
                         <div class="campo-input">
                             <label>CNPJ</label>
                             <div class="input-wrapper">
                                 <span class="material-symbols-outlined">badge</span>
-                                <input type="text" placeholder="00.000.000/0000-00">
+                                <input type="text" id="empCnpj" placeholder="00.000.000/0000-00">
                             </div>
                         </div>
                         <div class="campo-input">
                             <label>Categoria</label>
                             <div class="input-wrapper">
                                 <span class="material-symbols-outlined">restaurant_menu</span>
-                                <select>
+                                <select id="empCategoria">
                                     <option value="">Selecione o tipo de loja</option>
-                                    <option value="restaurante">Restaurante</option>
-                                    <option value="mercado">Mercado</option>
-                                    <option value="farmacia">Farmácia</option>
+                                    <option value="Restaurante">Restaurante</option>
+                                    <option value="Mercado">Mercado</option>
+                                    <option value="Farmácia">Farmácia</option>
+                                    <option value="Bebidas">Bebidas</option>
+                                    <option value="Pet Shop">Pet Shop</option>
                                 </select>
                                 <span class="material-symbols-outlined seta-baixo">keyboard_arrow_down</span>
                             </div>
@@ -170,7 +270,7 @@
                         <div class="campo-input">
                             <label>Endereço</label>
                             <div class="input-wrapper">
-                                <input type="text" placeholder="Buscar endereço...">
+                                <input type="text" id="empEndereco" placeholder="Endereço completo da loja">
                                 <span class="material-symbols-outlined icone-local">location_on</span>
                             </div>
                         </div>
@@ -178,13 +278,14 @@
                             <label>Senha</label>
                             <div class="input-wrapper">
                                 <span class="material-symbols-outlined">lock</span>
-                                <input type="password" placeholder="Crie uma senha forte">
-                                <button class="btn-visibilidade"><span class="material-symbols-outlined">visibility_off</span></button>
+                                <input type="password" id="empSenha" placeholder="Crie uma senha forte">
+                                <button type="button" class="btn-visibilidade"><span class="material-symbols-outlined">visibility_off</span></button>
                             </div>
                             <p class="info-senha">Mínimo de 8 caracteres.</p>
                         </div>
+                        <p id="cadEmpresaErro" style="color:#dc2626; font-size:13px; text-align:center; display:none;"></p>
                     </div>
-                    <button onclick="mudarTela('tela-10')" class="btn-principal btn-salvar">
+                    <button id="btnCadastrarEmpresa" onclick="cadastrarEmpresa()" class="btn-principal btn-salvar">
                         <span>Salvar</span>
                         <span class="material-symbols-outlined">arrow_forward</span>
                     </button>
@@ -198,24 +299,24 @@
                         <span class="material-symbols-outlined">location_on</span>
                         <div>
                             <span class="local-texto">Entregar em</span>
-                            <span class="local-endereco">Minha Localidade</span>
+                            <span class="local-endereco" id="home-local-endereco">Minha Localidade</span>
                         </div>
                         <span class="material-symbols-outlined">expand_more</span>
                     </div>
-                    <button class="btn-notificacao">
+                    <button class="btn-notificacao" id="btn-notificacao-cliente" onclick="abrirNotificacoes()">
                         <span class="material-symbols-outlined">notifications</span>
-                        <span class="notificacao-ponto"></span>
+                        <span class="notificacao-ponto" id="ponto-notificacao-cliente" style="display:none;"></span>
                     </button>
                 </div>
                 <div class="home-conteudo">
                     <h2>O que você precisa?</h2>
                     <div class="categorias-grid">
-                        <button class="categoria"><div class="categoria-icone"><span class="material-symbols-outlined">restaurant</span></div><span>Restaurantes</span></button>
-                        <button class="categoria"><div class="categoria-icone"><span class="material-symbols-outlined">storefront</span></div><span>Mercado</span></button>
-                        <button class="categoria"><div class="categoria-icone"><span class="material-symbols-outlined">medication</span></div><span>Farmácia</span></button>
-                        <button class="categoria"><div class="categoria-icone"><span class="material-symbols-outlined">liquor</span></div><span>Bebidas</span></button>
-                        <button class="categoria"><div class="categoria-icone"><span class="material-symbols-outlined">pets</span></div><span>Pet Shop</span></button>
-                        <button class="categoria"><div class="categoria-icone"><span class="material-symbols-outlined">two_wheeler</span></div><span>Entregas</span></button>
+                        <button class="categoria" onclick="abrirListaEmpresas('Restaurante')"><div class="categoria-icone"><span class="material-symbols-outlined">restaurant</span></div><span>Restaurantes</span></button>
+                        <button class="categoria" onclick="abrirListaEmpresas('Mercado')"><div class="categoria-icone"><span class="material-symbols-outlined">storefront</span></div><span>Mercado</span></button>
+                        <button class="categoria" onclick="abrirListaEmpresas('Farmácia')"><div class="categoria-icone"><span class="material-symbols-outlined">medication</span></div><span>Farmácia</span></button>
+                        <button class="categoria" onclick="abrirListaEmpresas('Bebidas')"><div class="categoria-icone"><span class="material-symbols-outlined">liquor</span></div><span>Bebidas</span></button>
+                        <button class="categoria" onclick="abrirListaEmpresas('Pet Shop')"><div class="categoria-icone"><span class="material-symbols-outlined">pets</span></div><span>Pet Shop</span></button>
+                        <button class="categoria" onclick="abrirListaEmpresas()"><div class="categoria-icone"><span class="material-symbols-outlined">restaurant_menu</span></div><span>Ver Todas</span></button>
                     </div>
                 </div>
                 <nav class="navegacao-inferior">
@@ -228,170 +329,2568 @@
 
             <!-- TELA 6: PESQUISAR -->
             <section id="tela-6" class="tela">
-                <div class="pesquisa-cabecalho"><h1>Pesquisar</h1><div class="pesquisa-busca"><span class="material-symbols-outlined">search</span><input type="text" placeholder="O que você procura hoje?"></div></div>
-                <div class="pesquisa-conteudo"><div class="pesquisa-sugestoes"><h3>Sugestões para você</h3><button class="link-vermais">Ver mais</button></div><div class="pesquisa-resultados"><div class="resultado-item"><div class="resultado-imagem" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD1ujBixUSbXXODnGm9IUFKnoC3Go4ZkUHxcZMTJAzBrUMyJF9QbXOOBpeVz82oSAkNbq5sSpTBvMGBKO3jhy1ll3vnp_yRKbz6PqYVne91LvfxdxzMeqnKVR_ZO5WL_0zoHXbwZHt0oO8j_uKoT3-ZYUgMsX3WdJJk64lUcPDfYYCAKc6jKjGTcaiDBbraJyEXVuILUvA603OYsdugtz4osVvExytIc72MbSRjXNexjetm5rrVNlGwlIPe5VOfhWp_UGUAxjO5Gbo')"></div><div class="resultado-info"><div class="resultado-titulo"><h4>Burger King</h4><span class="avaliacao">4.8</span></div><p>Fast Food • Lanches</p><div class="resultado-detalhes"><span><span class="material-symbols-outlined">schedule</span> 30-40 min</span><span class="entrega-gratis"><span class="material-symbols-outlined">attach_money</span> Entrega Grátis</span></div></div></div></div></div>
+                <div class="pesquisa-cabecalho"><h1>Pesquisar</h1><div class="pesquisa-busca"><span class="material-symbols-outlined">search</span><input type="text" id="pesquisa-busca-input" placeholder="O que você procura hoje?"></div></div>
+                <div class="pesquisa-conteudo">
+                    <div class="pesquisa-resultados" id="pesquisa-resultados">
+                        <p style="text-align:center; padding:20px; color:#888;">Digite para buscar lojas e produtos.</p>
+                    </div>
+                </div>
                 <nav class="navegacao-inferior"><button onclick="mudarTela('tela-5')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button><button class="nav-item ativo"><span class="material-symbols-outlined">search</span><span>Buscar</span></button><button onclick="mudarTela('tela-7')" class="nav-item"><span class="material-symbols-outlined">receipt_long</span><span>Pedidos</span></button><button onclick="mudarTela('tela-9')" class="nav-item"><span class="material-symbols-outlined">person</span><span>Perfil</span></button></nav>
             </section>
 
-            <!-- TELA 7: PEDIDOS -->
+            <!-- TELA 7: PEDIDOS DO CLIENTE (tempo real) -->
             <section id="tela-7" class="tela">
                 <div class="pedidos-cabecalho"><h1>Meus Pedidos</h1></div>
-                <div class="pedidos-conteudo"><div class="pedido-card"><div class="pedido-imagem" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB9qmCO1wwCO4N0iVnQWSPyVBHgwgZEXoQCF_0SPnDK-u1tits_-bmrj5XJY6rJBISIp4V6VNhhqkgO0-FKRGGt9kHBayxaeJKs4chrxUo4PBM0kFbVU-VKldj_2uv0PFReISHO7Yc-Tikbzi2Oyt-BZRqI8h5r3cJlEJACPTXLJnI6eR-MExNYdgnCWuRGTQX3MFh_mkViSIxRd5PCW5jTmMRrjOQk7b-PLyDk2tNQT37tXo3wroQ2JmEOZiU1c_chvrkP9c6AQVo')"></div><div class="pedido-info"><div class="pedido-titulo"><h3>Burger King</h3><span class="pedido-status status-andamento">Saiu para entrega</span></div><p class="pedido-data">Hoje, 19:30 • Pedido #4821</p><p class="pedido-descricao">1x Whopper Combo, 1x Batata Grande</p></div></div><button onclick="mudarTela('tela-8')" class="btn-chat"><span class="material-symbols-outlined">chat</span><span>Chat com Entregador</span></button></div>
+                <div class="pedidos-conteudo" id="pedidos-cliente-lista">
+                    <p style="text-align:center; padding:20px; color:#888;">Carregando pedidos...</p>
+                </div>
                 <nav class="navegacao-inferior"><button onclick="mudarTela('tela-5')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button><button onclick="mudarTela('tela-6')" class="nav-item"><span class="material-symbols-outlined">search</span><span>Buscar</span></button><button class="nav-item ativo"><span class="material-symbols-outlined">receipt_long</span><span>Pedidos</span></button><button onclick="mudarTela('tela-9')" class="nav-item"><span class="material-symbols-outlined">person</span><span>Perfil</span></button></nav>
             </section>
 
             <!-- TELA 8: CHAT -->
             <section id="tela-8" class="tela">
-                <div class="chat-cabecalho"><button onclick="mudarTela('tela-7')" class="btn-voltar"><span class="material-symbols-outlined">arrow_back</span></button><div class="chat-contato-info"><div class="chat-foto" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBE-eDMfOeLf8FpoYNPZwXXyHZDUt1lCh1Ff4DxVOMuoJpR-UHz6qWJgp75iB0mDf5EtHMDXz3UDL8q5hkZxHSWR0Q2v3TA84De-6l6pN7bOuIXZ_SDimOi5QXz24pyHiqUctirxzVTiUPzlgR9Xp_muVyxw5lnGjVnJdr-YZDgnLF0yk8jQn8oIJy3CVleqYgR7pg2F3KZ5iyCbZ2_RSj1Ywcmdb34AmWEncBJUqGJ-VLqfuVdWL5pcfIcktalCAuKqj43UtBRCqA')"></div><h2>Perfil da Cliente</h2></div><button class="btn-info"><span class="material-symbols-outlined">info</span></button></div>
-                <div class="chat-mensagens" id="chat-mensagens"><div class="chat-data">Hoje</div><div class="mensagem mensagem-recebida"><div class="mensagem-foto" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB7rSYxal4bU_WFmmlB2AUIS2FIE2WwCv3rGvQIBMas0ZXlndCkt9BvLRrerDMiECkhT5X0a-NDisyDTOwxyWQJ0I0Cirv8JUM6qkyiUDiqtLosebTbRt3kvs0loFt6shpoKZ-u0_V_VFxELtmbsbIzKi__49NCzpFAvCf74fIB_12vB7kjhKSf93gY1W8QVMrU-x3HhYbZYvF96Xd8lDWL4pkjMfOVCz8gBK9UGqehKbifhGjfnbb6LAWhWHLlohmRmB_Y-kkjBts')"></div><div class="mensagem-conteudo"><span class="mensagem-nome">Mariana Souza</span><div class="mensagem-balao"><p>Olá! Acabei de ver que meu pedido saiu para entrega.</p></div><span class="mensagem-hora">14:32</span></div></div><div class="mensagem mensagem-recebida"><div class="mensagem-conteudo"><div class="mensagem-balao"><p>Vai demorar muito?</p></div><span class="mensagem-hora">14:32</span></div></div><div class="mensagem mensagem-enviada"><div class="mensagem-conteudo"><div class="mensagem-balao mensagem-balao-enviada"><p>Boa tarde, Mariana! O motoboy já está a caminho. Deve chegar em cerca de 10 minutos.</p></div><div class="mensagem-status"><span class="mensagem-hora">14:35</span><span class="material-symbols-outlined">done_all</span></div></div></div><div class="mensagem mensagem-recebida"><div class="mensagem-foto" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCo2WOsnviTirPXViHLuIQx6Fc7P9RB04Mt2QW0Ne2r2uObuBI99pgO9Rwy0EMxZSQ8A90BNE-k-TPjnd6so7pDr1NlkwLqUCCBP0u8h704f5m159sd2XuCmX3Od-M3z99hL3voS5JZNWz7kNUFU6W9gmirlsY_s-eciw9XgtG1opIMFE6hWXIHKonrviDD-aYh6TLvnPlwTgJHKUCHDen1hK_Eut_AKTjhjZGNVC13TpeVDgBM0lV_YLF_WUdfQKipbGdIrG9T52c')"></div><div class="mensagem-conteudo"><div class="mensagem-balao"><p>Ótimo, obrigada! Vou aguardar na portaria.</p></div><span class="mensagem-hora">14:36</span></div></div></div>
+                <div class="chat-cabecalho"><button id="chat-btn-voltar" onclick="mudarTela('tela-7')" class="btn-voltar"><span class="material-symbols-outlined">arrow_back</span></button><div class="chat-contato-info"><div class="chat-foto" id="chat-foto-contato" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBE-eDMfOeLf8FpoYNPZwXXyHZDUt1lCh1Ff4DxVOMuoJpR-UHz6qWJgp75iB0mDf5EtHMDXz3UDL8q5hkZxHSWR0Q2v3TA84De-6l6pN7bOuIXZ_SDimOi5QXz24pyHiqUctirxzVTiUPzlgR9Xp_muVyxw5lnGjVnJdr-YZDgnLF0yk8jQn8oIJy3CVleqYgR7pg2F3KZ5iyCbZ2_RSj1Ywcmdb34AmWEncBJUqGJ-VLqfuVdWL5pcfIcktalCAuKqj43UtBRCqA')"></div><h2 id="chat-nome-contato">Conversa</h2></div><button class="btn-info"><span class="material-symbols-outlined">info</span></button></div>
+                <div class="chat-mensagens" id="chat-mensagens"><p style="text-align:center; padding:20px; color:#888;">Selecione uma conversa.</p></div>
                 <div class="chat-input"><button id="record-btn" class="btn-audio"><span class="material-symbols-outlined">mic</span></button><div class="chat-input-container"><input type="text" id="chat-input" placeholder="Digite sua mensagem..."></div><button id="send-btn" class="btn-enviar"><span class="material-symbols-outlined">send</span></button></div>
-                <nav class="navegacao-inferior"><button onclick="mudarTela('tela-5')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button><button onclick="mudarTela('tela-6')" class="nav-item"><span class="material-symbols-outlined">search</span><span>Buscar</span></button><button onclick="mudarTela('tela-7')" class="nav-item"><span class="material-symbols-outlined">receipt_long</span><span>Pedidos</span></button><button onclick="mudarTela('tela-9')" class="nav-item"><span class="material-symbols-outlined">person</span><span>Perfil</span></button></nav>
+                <nav class="navegacao-inferior" id="chat-nav">
+                    <button onclick="mudarTela('tela-5')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button>
+                    <button onclick="mudarTela('tela-6')" class="nav-item"><span class="material-symbols-outlined">search</span><span>Buscar</span></button>
+                    <button onclick="mudarTela('tela-7')" class="nav-item"><span class="material-symbols-outlined">receipt_long</span><span>Pedidos</span></button>
+                    <button onclick="mudarTela('tela-9')" class="nav-item"><span class="material-symbols-outlined">person</span><span>Perfil</span></button>
+                </nav>
             </section>
 
             <!-- TELA 9: PERFIL CLIENTE -->
             <section id="tela-9" class="tela">
                 <div class="perfil-cabecalho"><h1>Meu Perfil</h1></div>
-                <div class="perfil-conteudo"><div class="perfil-foto-container"><div class="perfil-foto" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAdfNGj9M5PWs6ndJyrqKlftGJxQCay23IDeqSjrZr2uEE5rpgzA_W7x_sj50n3uEwXXuBP_1X1wnpueL20XuVppn2evqajkJWmkjHwpoohbJKGtGLNYILf_hal-eRCwK678boFLs2v2RXByyR1S1D_eXIhkOkDymsi52Roq2wJMGPB64Xur8Eswjq3TwZVxEVCXw87w5qW_joqA8ezHd-ljbU1BLcFkFrB9PZxwnQJ5iuBhnS_QkjhJaZIFk-q6RxpvVp9gMipJ_Y')"></div><button class="btn-camera"><span class="material-symbols-outlined">camera_alt</span></button></div><h2 id="nomePerfil">Maria Silva</h2><button class="btn-mudar-perfil">Mudar Perfil</button></div>
-                <div class="perfil-detalhes"><div class="detalhe-item"><div class="detalhe-icone"><span class="material-symbols-outlined">mail</span></div><div class="detalhe-conteudo"><span class="detalhe-rotulo">Email</span><span class="detalhe-valor" id="emailPerfil">maria.silva@email.com</span></div></div><div class="detalhe-item"><div class="detalhe-icone"><span class="material-symbols-outlined">call</span></div><div class="detalhe-conteudo"><span class="detalhe-rotulo">Número</span><span class="detalhe-valor">(11) 98765-4321</span></div></div><div class="detalhe-item"><div class="detalhe-icone"><span class="material-symbols-outlined">location_on</span></div><div class="detalhe-conteudo"><span class="detalhe-rotulo">Localidade</span><span class="detalhe-valor">Rua das Flores, 123 - São Paulo</span></div><button class="btn-editar"><span class="material-symbols-outlined">edit</span></button></div></div>
-                <button onclick="sairDaConta()" class="btn-sair"><span class="material-symbols-outlined">logout</span><span>Sair da Conta</span></button><p class="versao-app">Versão 2.4.0</p>
-                <nav class="navegacao-inferior"><button onclick="mudarTela('tela-5')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button><button onclick="mudarTela('tela-6')" class="nav-item"><span class="material-symbols-outlined">search</span><span>Buscar</span></button><button onclick="mudarTela('tela-7')" class="nav-item"><span class="material-symbols-outlined">receipt_long</span><span>Pedidos</span></button><button class="nav-item ativo"><span class="material-symbols-outlined">person</span><span>Perfil</span></button></nav>
+
+                <!-- Foto + nome + e-mail -->
+                <div class="perfil-conteudo">
+                    <div class="perfil-foto-container">
+                        <div class="perfil-foto" id="perfilFotoEl"></div>
+                        <button class="btn-camera" onclick="document.getElementById('inputFotoPerfil').click()">
+                            <span class="material-symbols-outlined">camera_alt</span>
+                        </button>
+                        <!-- Input oculto para selecionar imagem da galeria -->
+                        <input type="file" id="inputFotoPerfil" accept="image/*" style="display:none;">
+                    </div>
+                    <h2 id="nomePerfil">Carregando...</h2>
+                    <span class="perfil-email-sub" id="emailPerfil"></span>
+                </div>
+
+                <!-- Campos editáveis -->
+                <div class="perfil-detalhes">
+                    <div class="detalhe-item">
+                        <div class="detalhe-icone"><span class="material-symbols-outlined">call</span></div>
+                        <div class="detalhe-conteudo">
+                            <span class="detalhe-rotulo">Número</span>
+                            <input id="perfilTelefone" class="detalhe-input" type="tel" placeholder="(XX) XXXXX-XXXX">
+                        </div>
+                    </div>
+                    <div class="detalhe-item">
+                        <div class="detalhe-icone"><span class="material-symbols-outlined">location_on</span></div>
+                        <div class="detalhe-conteudo">
+                            <span class="detalhe-rotulo">Localidade</span>
+                            <input id="perfilLocalidade" class="detalhe-input" type="text" placeholder="Sua cidade ou endereço">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botão salvar -->
+                <button onclick="salvarPerfil()" class="btn-salvar-perfil">
+                    <span class="material-symbols-outlined">save</span>
+                    Salvar Alterações
+                </button>
+
+                <button onclick="sairDaConta()" class="btn-sair">
+                    <span class="material-symbols-outlined">logout</span>
+                    <span>Sair da Conta</span>
+                </button>
+                <p class="versao-app">Versão 2.4.0</p>
+
+                <nav class="navegacao-inferior">
+                    <button onclick="mudarTela('tela-5')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button>
+                    <button onclick="mudarTela('tela-6')" class="nav-item"><span class="material-symbols-outlined">search</span><span>Buscar</span></button>
+                    <button onclick="mudarTela('tela-7')" class="nav-item"><span class="material-symbols-outlined">receipt_long</span><span>Pedidos</span></button>
+                    <button class="nav-item ativo"><span class="material-symbols-outlined">person</span><span>Perfil</span></button>
+                </nav>
             </section>
 
-            <!-- TELA 10: MINHA LOJA -->
+            <!-- TELA 10: MINHA LOJA (pedidos em tempo real) -->
             <section id="tela-10" class="tela">
-                <div class="loja-header">Minha Loja</div>
+                <div class="loja-header" style="display:flex; align-items:center; justify-content:space-between;">
+                    <span>Minha Loja</span>
+                    <button class="btn-notificacao" id="btn-notificacao-empresa" onclick="abrirNotificacoes()" style="position:relative;">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span class="notificacao-ponto" id="ponto-notificacao-empresa" style="display:none;"></span>
+                    </button>
+                </div>
                 <div class="status-box"><span>Status da Loja: <strong id="status-text">Aberto</strong></span><div id="switch" class="switch"><div class="circle"></div></div></div>
-                <div class="loja-cards"><div class="loja-card"><span>Pedidos Pendentes</span><h2>5</h2></div><div class="loja-card"><span>Em Preparo</span><h2>3</h2></div></div>
-                <div class="loja-section-title">Pedidos Recentes</div>
-                <div class="loja-pedidos"><div class="loja-pedido"><div class="pedido-top"><strong>Maria Silva</strong><strong>R$ 67,90</strong></div><small>#2847</small><div class="pedido-list">2x Hambúrguer Artesanal<br>1x Batata Frita<br>1x Refrigerante</div><button class="btn-aceitar" onclick="aceitarPedido(this)">Aceitar</button></div><div class="loja-pedido"><div class="pedido-top"><strong>João Santos</strong><strong>R$ 42,50</strong></div><small>#2846</small><div class="pedido-list">1x Hambúrguer Bacon<br>1x Suco Natural</div><button class="btn-aceitar" onclick="aceitarPedido(this)">Aceitar</button></div></div>
+                <div class="loja-cards">
+                    <div class="loja-card" id="card-pendentes" onclick="mostrarPedidosPorStatus('Pendente')" style="cursor:pointer;">
+                        <span>Pedidos Pendentes</span><h2 id="contador-pendentes">0</h2>
+                    </div>
+                    <div class="loja-card" id="card-preparo" onclick="mostrarPedidosPorStatus('Aceito')" style="cursor:pointer;">
+                        <span>Em Preparo</span><h2 id="contador-preparo">0</h2>
+                    </div>
+                </div>
+                <div class="loja-cards" style="margin-top:8px;">
+                    <div class="loja-card" id="card-concluidos" onclick="mostrarPedidosPorStatus('Concluído')" style="cursor:pointer;">
+                        <span>Entregues</span><h2 id="contador-concluidos">0</h2>
+                    </div>
+                    <div class="loja-card" id="card-recusados" onclick="mostrarPedidosPorStatus('Recusado')" style="cursor:pointer;">
+                        <span>Recusados</span><h2 id="contador-recusados">0</h2>
+                    </div>
+                </div>
+                <div class="loja-section-title" id="loja-section-title">Pedidos Pendentes</div>
+                <div class="loja-pedidos" id="loja-pedidos-lista">
+                    <p style="text-align:center; padding:20px; color:#888;">Carregando pedidos...</p>
+                </div>
                 <nav class="navegacao-inferior"><button class="nav-item ativo" onclick="mudarTela('tela-10')"><span class="material-symbols-outlined">home</span><span>Início</span></button><button class="nav-item" onclick="mudarTela('tela-11')"><span class="material-symbols-outlined">restaurant_menu</span><span>Cardápio</span></button><button class="nav-item" onclick="mudarTela('tela-12')"><span class="material-symbols-outlined">chat</span><span>Mensagens</span></button><button class="nav-item" onclick="mudarTela('tela-13')"><span class="material-symbols-outlined">settings</span><span>Ajustes</span></button></nav>
             </section>
 
             <!-- TELA 11: CARDÁPIO -->
             <section id="tela-11" class="tela">
                 <div class="cardapio-header"><div class="cardapio-top"><button onclick="mudarTela('tela-10')" class="btn-voltar"><span class="material-symbols-outlined">arrow_back</span></button><h1>Cardápio Digital</h1></div><div class="cardapio-search"><span class="material-symbols-outlined">search</span><input type="text" id="cardapio-busca" placeholder="Buscar produtos..."></div></div>
-                <div class="cardapio-content" id="cardapio-content"><h3>Hambúrgueres</h3><div class="cardapio-item"><div><h4>Hambúrguer Artesanal</h4><p>Pão artesanal, hambúrguer 180g, queijo, alface e tomate</p><span class="cardapio-price">R$ 32,90</span></div><label class="cardapio-switch"><input type="checkbox" checked><span class="slider"></span></label></div><div class="cardapio-item"><div><h4>Hambúrguer Bacon</h4><p>Pão, hambúrguer 180g, bacon crocante, queijo e molho especial</p><span class="cardapio-price">R$ 38,90</span></div><label class="cardapio-switch"><input type="checkbox" checked><span class="slider"></span></label></div><div class="cardapio-item"><div><h4>Hambúrguer Vegetariano</h4><p>Pão integral, hambúrguer de grão-de-bico, queijo e vegetais</p><span class="cardapio-price">R$ 28,90</span></div><label class="cardapio-switch"><input type="checkbox"><span class="slider"></span></label></div><h3>Bebidas</h3><div class="cardapio-item"><div><h4>Refrigerante</h4><p>Lata 350ml</p><span class="cardapio-price">R$ 6,00</span></div><label class="cardapio-switch"><input type="checkbox" checked><span class="slider"></span></label></div><div class="cardapio-item"><div><h4>Suco Natural</h4><p>Laranja, limão ou abacaxi - 500ml</p><span class="cardapio-price">R$ 8,00</span></div><label class="cardapio-switch"><input type="checkbox"><span class="slider"></span></label></div><div class="cardapio-item"><div><h4>Água Mineral</h4><p>Garrafa 500ml</p><span class="cardapio-price">R$ 3,50</span></div><label class="cardapio-switch"><input type="checkbox" checked><span class="slider"></span></label></div><h3>Sobremesas</h3><div class="cardapio-item"><div><h4>Petit Gateau</h4><p>Com sorvete de creme e calda de chocolate</p><span class="cardapio-price">R$ 18,90</span></div><label class="cardapio-switch"><input type="checkbox"><span class="slider"></span></label></div><div class="cardapio-item"><div><h4>Torta de Limão</h4><p>Massa crocante com recheio cremoso</p><span class="cardapio-price">R$ 12,90</span></div><label class="cardapio-switch"><input type="checkbox"><span class="slider"></span></label></div></div>
-                <button class="cardapio-fab" onclick="alert('Adicionar novo produto - Em desenvolvimento')"><span class="material-symbols-outlined">add</span></button>
+                <div class="cardapio-content" id="cardapio-content"></div>
+                <button class="cardapio-fab" onclick="abrirCadastroProduto()">
+                    <span class="material-symbols-outlined">add</span>
+                </button>
                 <nav class="navegacao-inferior"><button onclick="mudarTela('tela-10')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button><button class="nav-item ativo"><span class="material-symbols-outlined">restaurant_menu</span><span>Cardápio</span></button><button onclick="mudarTela('tela-12')" class="nav-item"><span class="material-symbols-outlined">chat</span><span>Mensagens</span></button><button onclick="mudarTela('tela-13')" class="nav-item"><span class="material-symbols-outlined">settings</span><span>Ajustes</span></button></nav>
             </section>
 
             <!-- TELA 12: MENSAGENS -->
             <section id="tela-12" class="tela">
                 <div class="mensagens-cabecalho"><div class="mensagens-top"><button onclick="mudarTela('tela-10')" class="btn-voltar"><span class="material-symbols-outlined">arrow_back</span></button><h1>Mensagens</h1></div><div class="mensagens-busca"><div class="busca-box"><span class="material-symbols-outlined">search</span><input type="text" id="mensagens-busca-input" placeholder="Buscar conversas..."></div></div></div>
-                <div class="mensagens-lista" id="mensagens-lista"><div class="mensagem-item" data-nome="Maria Silva" data-id="2847"><div class="avatar avatar1">MS</div><div class="mensagem-info"><div class="mensagem-topo"><h3>Maria Silva</h3><span class="badge">2</span></div><div class="mensagem-id">#2847</div><div class="mensagem-preview">Obrigado! Aguardo a entrega.</div></div></div><div class="mensagem-item" data-nome="João Santos" data-id="2846"><div class="avatar avatar2">JS</div><div class="mensagem-info"><div class="mensagem-topo"><h3>João Santos</h3><span class="badge">1</span></div><div class="mensagem-id">#2846</div><div class="mensagem-preview">Pode enviar sem cebola?</div></div></div><div class="mensagem-item" data-nome="Ana Costa" data-id="2845"><div class="avatar avatar3">AC</div><div class="mensagem-info"><div class="mensagem-topo"><h3>Ana Costa</h3><span class="badge">3</span></div><div class="mensagem-id">#2845</div><div class="mensagem-preview">Quanto tempo para entrega?</div></div></div><div class="mensagem-item" data-nome="Carlos Oliveira" data-id="2844"><div class="avatar avatar4">CO</div><div class="mensagem-info"><div class="mensagem-topo"><h3>Carlos Oliveira</h3></div><div class="mensagem-id">#2844</div><div class="mensagem-preview">Pedido já foi enviado?</div></div></div><div class="mensagem-item" data-nome="Fernanda Lima" data-id="2843"><div class="avatar avatar5">FL</div><div class="mensagem-info"><div class="mensagem-topo"><h3>Fernanda Lima</h3></div><div class="mensagem-id">#2843</div><div class="mensagem-preview">Tudo perfeito, muito obrigada!</div></div></div></div>
+                <div class="mensagens-lista" id="mensagens-lista">
+                    <p style="text-align:center; padding:20px; color:#888;">Carregando conversas...</p>
+                </div>
                 <nav class="navegacao-inferior"><button onclick="mudarTela('tela-10')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button><button onclick="mudarTela('tela-11')" class="nav-item"><span class="material-symbols-outlined">restaurant_menu</span><span>Cardápio</span></button><button class="nav-item ativo"><span class="material-symbols-outlined">chat</span><span>Mensagens</span></button><button onclick="mudarTela('tela-13')" class="nav-item"><span class="material-symbols-outlined">settings</span><span>Ajustes</span></button></nav>
             </section>
 
             <!-- TELA 13: AJUSTES -->
             <section id="tela-13" class="tela">
                 <div class="ajustes-cabecalho"><div class="ajustes-top"><button onclick="mudarTela('tela-10')" class="btn-voltar"><span class="material-symbols-outlined">arrow_back</span></button><h1>Ajustes</h1></div></div>
-                <div class="ajustes-conteudo"><div class="card-loja"><div class="icone-loja"><span class="material-symbols-outlined">store</span></div><div class="info-loja"><h3>Hamburgueria do João</h3><span>CNPJ: 12.345.678/0001-90</span></div></div><div class="ajustes-lista"><div class="ajustes-item" onclick="alert('Dados da Loja - Em desenvolvimento')"><div class="item-esquerda"><span class="material-symbols-outlined">store</span><p>Dados da Loja</p></div><span class="material-symbols-outlined seta">chevron_right</span></div><div class="ajustes-item" onclick="alert('Horário de Funcionamento - Em desenvolvimento')"><div class="item-esquerda"><span class="material-symbols-outlined">schedule</span><p>Horário de Funcionamento</p></div><span class="material-symbols-outlined seta">chevron_right</span></div><div class="ajustes-item" onclick="alert('Área de Entrega - Em desenvolvimento')"><div class="item-esquerda"><span class="material-symbols-outlined">location_on</span><p>Área de Entrega</p></div><span class="material-symbols-outlined seta">chevron_right</span></div><div class="ajustes-item" onclick="alert('Formas de Pagamento - Em desenvolvimento')"><div class="item-esquerda"><span class="material-symbols-outlined">credit_card</span><p>Formas de Pagamento</p></div><span class="material-symbols-outlined seta">chevron_right</span></div></div><div class="btn-sair-ajustes"><button onclick="sairDaConta()"><span class="material-symbols-outlined">logout</span>Sair da Conta</button></div></div>
+                <div class="ajustes-conteudo">
+                    <div class="card-loja"><div class="icone-loja"><span class="material-symbols-outlined">store</span></div><div class="info-loja"><h3 id="ajustes-nome-loja">Minha Loja</h3><span id="ajustes-cnpj-loja">CNPJ: —</span></div></div>
+                    <div class="ajustes-lista"><div class="ajustes-item" onclick="abrirDadosDaLoja()"><div class="item-esquerda"><span class="material-symbols-outlined">store</span><p>Dados da Loja</p></div><span class="material-symbols-outlined seta">chevron_right</span></div></div>
+
+                    <!-- Formulário de dados da loja (oculto até o usuário clicar) -->
+                    <div id="form-dados-loja" style="display:none; padding:16px;">
+                        <div class="campo-input-produto">
+                            <label>Nome da Loja</label>
+                            <div class="input-wrapper-produto">
+                                <span class="material-symbols-outlined">store</span>
+                                <input type="text" id="lojaNome" placeholder="Nome da loja">
+                            </div>
+                        </div>
+                        <div class="campo-input-produto">
+                            <label>CNPJ</label>
+                            <div class="input-wrapper-produto">
+                                <span class="material-symbols-outlined">badge</span>
+                                <input type="text" id="lojaCnpj" placeholder="00.000.000/0000-00">
+                            </div>
+                        </div>
+                        <div class="campo-input-produto">
+                            <label>Categoria</label>
+                            <div class="input-wrapper-produto">
+                                <span class="material-symbols-outlined">restaurant_menu</span>
+                                <select id="lojaCategoria">
+                                    <option value="Restaurante">Restaurante</option>
+                                    <option value="Mercado">Mercado</option>
+                                    <option value="Farmácia">Farmácia</option>
+                                    <option value="Bebidas">Bebidas</option>
+                                    <option value="Pet Shop">Pet Shop</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="campo-input-produto">
+                            <label>Endereço</label>
+                            <div class="input-wrapper-produto">
+                                <span class="material-symbols-outlined">location_on</span>
+                                <input type="text" id="lojaEndereco" placeholder="Endereço completo da loja">
+                            </div>
+                        </div>
+                        <div class="campo-input-produto">
+                            <label>Chave Pix (CPF, CNPJ, e-mail, telefone com +55 ou chave aleatória)</label>
+                            <div class="input-wrapper-produto">
+                                <span class="material-symbols-outlined">qr_code_2</span>
+                                <input type="text" id="lojaChavePix" placeholder="Chave Pix para receber pagamentos">
+                            </div>
+                        </div>
+                        <button onclick="salvarDadosDaLoja()" class="btn-salvar-produto">
+                            <span class="material-symbols-outlined">save</span>
+                            Salvar Dados da Loja
+                        </button>
+                    </div>
+
+                    <div class="btn-sair-ajustes"><button onclick="sairDaConta()"><span class="material-symbols-outlined">logout</span>Sair da Conta</button></div>
+                </div>
                 <nav class="navegacao-inferior"><button onclick="mudarTela('tela-10')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button><button onclick="mudarTela('tela-11')" class="nav-item"><span class="material-symbols-outlined">restaurant_menu</span><span>Cardápio</span></button><button onclick="mudarTela('tela-12')" class="nav-item"><span class="material-symbols-outlined">chat</span><span>Mensagens</span></button><button class="nav-item ativo"><span class="material-symbols-outlined">settings</span><span>Ajustes</span></button></nav>
             </section>
+
+            <!-- TELA 14: CADASTRAR PRODUTO -->
+            <section id="tela-14" class="tela">
+                <div class="tela-cabecalho">
+                    <button onclick="fecharCadastroProduto()" class="btn-voltar">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h1>Cadastrar Produto</h1>
+                </div>
+                <div class="produto-conteudo">
+                    <div class="form-card">
+                        <div class="photo-section">
+                            <div class="photo-label">Adicionar foto do produto</div>
+                            <div id="uploadArea" class="photo-upload-area">
+                                <div class="upload-icon"><span class="material-symbols-outlined">cloud_upload</span></div>
+                                <span>Clique para adicionar imagem</span>
+                                <div class="photo-hint">PNG, JPG até 5MB</div>
+                            </div>
+                            <div id="photoPreviewContainer" class="photo-preview">
+                                <img id="previewImg" class="preview-img" src="#" alt="pré-visualização">
+                                <div class="preview-info"><span id="previewFileName">foto_selecionada.jpg</span><small>imagem adicionada</small></div>
+                                <button id="removePhotoBtn" class="remove-photo"><span class="material-symbols-outlined">close</span></button>
+                            </div>
+                            <input type="file" id="productPhotoInput" accept="image/png, image/jpeg, image/jpg" style="display: none;">
+                        </div>
+                        <div class="campo-input-produto">
+                            <label>Nome do Produto</label>
+                            <div class="input-wrapper-produto">
+                                <span class="material-symbols-outlined">sell</span>
+                                <input type="text" id="productName" placeholder="Ex: Hambúrguer Artesanal" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="campo-input-produto">
+                            <label>Categoria</label>
+                            <div class="input-wrapper-produto">
+                                <span class="material-symbols-outlined">category</span>
+                                <select id="productCategory">
+                                    <option value="" disabled selected>Selecione a categoria...</option>
+                                    <option value="Hambúrgueres">Hambúrgueres</option>
+                                    <option value="Bebidas">Bebidas</option>
+                                    <option value="Sobremesas">Sobremesas</option>
+                                    <option value="Acompanhamentos">Acompanhamentos</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="campo-input-produto">
+                            <label>Preço</label>
+                            <div class="price-input-wrapper">
+                                <span class="currency-symbol">R$</span>
+                                <input type="text" id="productPrice" placeholder="0,00" value="">
+                            </div>
+                        </div>
+                        <div class="campo-input-produto">
+                            <label>Descrição</label>
+                            <div class="input-wrapper-produto">
+                                <span class="material-symbols-outlined">description</span>
+                                <textarea id="productDescription" rows="3" placeholder="Insira os ingredientes, composição ou detalhes do item..."></textarea>
+                            </div>
+                        </div>
+                        <button id="btnSalvarProduto" onclick="salvarProduto()" class="btn-salvar-produto">
+                            <span class="material-symbols-outlined">save</span>
+                            Salvar Produto
+                        </button>
+                    </div>
+                </div>
+                <nav class="navegacao-inferior"><button onclick="mudarTela('tela-10')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button><button onclick="mudarTela('tela-11')" class="nav-item"><span class="material-symbols-outlined">restaurant_menu</span><span>Cardápio</span></button><button onclick="mudarTela('tela-12')" class="nav-item"><span class="material-symbols-outlined">chat</span><span>Mensagens</span></button><button onclick="mudarTela('tela-13')" class="nav-item"><span class="material-symbols-outlined">settings</span><span>Ajustes</span></button></nav>
+            </section>
+
+            <!-- TELA 15: CARDÁPIO DA EMPRESA (para cliente) -->
+            <section id="tela-15" class="tela">
+                <div class="tela-cabecalho">
+                    <button onclick="mudarTela('tela-16')" class="btn-voltar">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h1 id="titulo-cardapio-empresa">Cardápio</h1>
+                    <button onclick="abrirChatEmpresaAtual()" class="btn-voltar" style="margin-left:auto;" title="Falar com a loja">
+                        <span class="material-symbols-outlined">chat</span>
+                    </button>
+                </div>
+                <div id="loja-fechada-aviso" style="display:none; margin:10px 16px 0; padding:10px 14px; background:#fff3cd; color:#8a6d3b; border-radius:10px; font-size:13px; text-align:center;">
+                    Esta loja está fechada no momento. Você pode ver o cardápio, mas não é possível fazer pedidos agora.
+                </div>
+                <div class="produto-conteudo">
+                    <div id="listaProdutosCliente" class="produtos-cliente-grid"></div>
+                </div>
+
+                <!-- Barra do carrinho (some quando vazio) -->
+                <div id="barra-carrinho" style="display:none; position:sticky; bottom:64px; margin:0 16px 10px; background:var(--primary,#e50615); color:#fff; border-radius:14px; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 4px 14px rgba(0,0,0,0.18); cursor:pointer;" onclick="abrirResumoCarrinho()">
+                    <span id="carrinho-resumo-texto">0 itens</span>
+                    <span style="display:flex; align-items:center; gap:6px; font-weight:700;">Ver sacola <span class="material-symbols-outlined">shopping_bag</span></span>
+                </div>
+
+                <nav class="navegacao-inferior">
+                    <button onclick="mudarTela('tela-5')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button>
+                    <button onclick="mudarTela('tela-6')" class="nav-item"><span class="material-symbols-outlined">search</span><span>Buscar</span></button>
+                    <button onclick="mudarTela('tela-7')" class="nav-item"><span class="material-symbols-outlined">receipt_long</span><span>Pedidos</span></button>
+                    <button onclick="mudarTela('tela-9')" class="nav-item"><span class="material-symbols-outlined">person</span><span>Perfil</span></button>
+                </nav>
+            </section>
+
+            <!-- TELA 16: LISTA DE EMPRESAS (nova) -->
+            <section id="tela-16" class="tela">
+                <div class="tela-cabecalho">
+                    <button onclick="mudarTela('tela-5')" class="btn-voltar">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h1 id="titulo-lista-empresas">Lojas</h1>
+                </div>
+                <div class="produto-conteudo">
+                    <div id="listaEmpresas" style="display:flex; flex-direction:column; gap:12px; padding:16px;">
+                        <p style="text-align:center; color:#888;">Carregando...</p>
+                    </div>
+                </div>
+                <nav class="navegacao-inferior">
+                    <button onclick="mudarTela('tela-5')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button>
+                    <button onclick="mudarTela('tela-6')" class="nav-item"><span class="material-symbols-outlined">search</span><span>Buscar</span></button>
+                    <button onclick="mudarTela('tela-7')" class="nav-item"><span class="material-symbols-outlined">receipt_long</span><span>Pedidos</span></button>
+                    <button onclick="mudarTela('tela-9')" class="nav-item"><span class="material-symbols-outlined">person</span><span>Perfil</span></button>
+                </nav>
+            </section>
+
+            <!-- TELA 17: NOTIFICAÇÕES (nova, comum a cliente e empresa) -->
+            <section id="tela-17" class="tela">
+                <div class="tela-cabecalho">
+                    <button onclick="voltarDeNotificacoes()" class="btn-voltar">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </button>
+                    <h1>Notificações</h1>
+                </div>
+                <div id="notificacoes-lista" style="padding:12px 16px; display:flex; flex-direction:column; gap:10px;">
+                    <p style="text-align:center; padding:20px; color:#888;">Carregando notificações...</p>
+                </div>
+            </section>
+
+            <!-- TELA 18: FINALIZAR PEDIDO (resumo + endereço + entrega) -->
+            <section id="tela-18" class="tela">
+                <div class="tela-cabecalho">
+                    <button onclick="mudarTela('tela-15')" class="btn-voltar"><span class="material-symbols-outlined">arrow_back</span></button>
+                    <h1>Finalizar pedido</h1>
+                </div>
+                <div class="produto-conteudo">
+                    <div class="checkout-card">
+                        <h2>Resumo do pedido</h2>
+                        <div id="resumoCarrinhoLista" style="display:flex; flex-direction:column; gap:10px;"></div>
+                        <div class="checkout-total"><span>Total do pedido</span><strong id="resumoCarrinhoTotal">R$ 0,00</strong></div>
+                    </div>
+
+                    <div class="checkout-card checkout-lista">
+                        <button class="checkout-linha" onclick="mudarTela('tela-9')">
+                            <span class="material-symbols-outlined checkout-ico">location_on</span>
+                            <span class="checkout-texto">
+                                <strong>Endereço de entrega</strong>
+                                <span id="checkout-endereco">Carregando...</span>
+                            </span>
+                            <span class="material-symbols-outlined checkout-seta">chevron_right</span>
+                        </button>
+                        <div class="checkout-linha">
+                            <span class="material-symbols-outlined checkout-ico">two_wheeler</span>
+                            <span class="checkout-texto">
+                                <strong>Entrega</strong>
+                                <small>Tempo estimado: 30 a 45 min</small>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="checkout-rodape">
+                    <button class="btn-checkout" onclick="irParaPagamento()">Continuar para pagamento</button>
+                </div>
+            </section>
+
+            <!-- TELA 19: FORMA DE PAGAMENTO -->
+            <section id="tela-19" class="tela">
+                <div class="tela-cabecalho">
+                    <button onclick="mudarTela('tela-18')" class="btn-voltar"><span class="material-symbols-outlined">arrow_back</span></button>
+                    <h1>Forma de pagamento</h1>
+                </div>
+                <div class="produto-conteudo">
+                    <h2 class="pg-pergunta">Como deseja pagar?</h2>
+
+                    <button class="pg-opcao selecionada" data-forma="Pix" onclick="selecionarPagamento('Pix')">
+                        <span class="material-symbols-outlined pg-ico pg-ico-pix">qr_code_2</span>
+                        <span class="pg-texto"><strong>Pix</strong><small>Pagamento rápido</small></span>
+                        <span class="pg-radio"></span>
+                    </button>
+
+                    <button class="pg-opcao" data-forma="Cartão" onclick="selecionarPagamento('Cartão')">
+                        <span class="material-symbols-outlined pg-ico">credit_card</span>
+                        <span class="pg-texto"><strong>Cartão de crédito ou débito</strong><small>Pagar com cartão na entrega</small></span>
+                        <span class="pg-radio"></span>
+                    </button>
+
+                    <button class="pg-opcao" data-forma="Dinheiro" onclick="selecionarPagamento('Dinheiro')">
+                        <span class="material-symbols-outlined pg-ico">payments</span>
+                        <span class="pg-texto"><strong>Dinheiro na entrega</strong><small>Pagar ao receber</small></span>
+                        <span class="pg-radio"></span>
+                    </button>
+                </div>
+                <div class="checkout-rodape">
+                    <div class="pg-total"><span>Total:</span><strong id="pagamentoTotal">R$ 0,00</strong></div>
+                    <button id="btnConfirmarPagamento" class="btn-checkout" onclick="confirmarPedidoCarrinho()">Confirmar pagamento</button>
+                </div>
+            </section>
+
+            <!-- TELA 20: DETALHES DO PEDIDO (empresa) -->
+            <section id="tela-20" class="tela">
+                <div class="tela-cabecalho">
+                    <button onclick="fecharDetalhesPedido()" class="btn-voltar"><span class="material-symbols-outlined">arrow_back</span></button>
+                    <h1>Detalhes do pedido</h1>
+                </div>
+                <div class="produto-conteudo" id="detalhe-pedido-conteudo">
+                    <p style="text-align:center; padding:20px; color:#888;">Carregando...</p>
+                </div>
+                <nav class="navegacao-inferior">
+                    <button onclick="mudarTela('tela-10')" class="nav-item ativo"><span class="material-symbols-outlined">home</span><span>Início</span></button>
+                    <button onclick="mudarTela('tela-11')" class="nav-item"><span class="material-symbols-outlined">restaurant_menu</span><span>Cardápio</span></button>
+                    <button onclick="mudarTela('tela-12')" class="nav-item"><span class="material-symbols-outlined">chat</span><span>Mensagens</span></button>
+                    <button onclick="mudarTela('tela-13')" class="nav-item"><span class="material-symbols-outlined">settings</span><span>Ajustes</span></button>
+                </nav>
+            </section>
+
         </div>
     </div>
 
     <script src="script.js"></script>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    onAuthStateChanged,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    updateProfile
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+    getFirestore,
+    collection,
+    addDoc,
+    getDocs,
+    getDoc,
+    doc,
+    setDoc,
+    updateDoc,
+    deleteDoc,
+    onSnapshot,
+    query,
+    where,
+    orderBy,
+    serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyB6OlOdx2p71kv57KF5XlRYoATZa8bWYvw",
-            authDomain: "aplicativo-prontoja-80c02.firebaseapp.com",
-            projectId: "aplicativo-prontoja-80c02",
-            storageBucket: "aplicativo-prontoja-80c02.firebasestorage.app",
-            messagingSenderId: "625556388980",
-            appId: "1:625556388980:web:32b3bcf47cb3aa9ccda521",
-            measurementId: "G-4YMXEHLGDR"
-        };
+const firebaseConfig = {
+    apiKey: "AIzaSyB6OlOdx2p71kv57KF5XlRYoATZa8bWYvw",
+    authDomain: "aplicativo-prontoja-80c02.firebaseapp.com",
+    projectId: "aplicativo-prontoja-80c02",
+    storageBucket: "aplicativo-prontoja-80c02.firebasestorage.app",
+    messagingSenderId: "625556388980",
+    appId: "1:625556388980:web:32b3bcf47cb3aa9ccda521",
+    measurementId: "G-4YMXEHLGDR"
+};
 
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const provider = new GoogleAuthProvider();
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+let tipoUsuario = null;
 
-        let tipoUsuario = null;
+// ==========================================
+// HELPERS
+// ==========================================
 
-        // Salva o tipo escolhido e vai para tela de login
-        window.irParaLogin = function(tipo) {
-            tipoUsuario = tipo;
-            mudarTela('tela-login');
-        };
+function formatarPreco(preco) {
+    const num = parseFloat(String(preco ?? '0').replace(',', '.'));
+    const seguro = isNaN(num) ? 0 : num;
+    return `R$ ${seguro.toFixed(2).replace('.', ',')}`;
+}
 
-        // Login com Google - redireciona baseado no tipoUsuario
-        window.loginComGoogle = async function() {
-            if (!tipoUsuario) {
-                alert("Erro: Tipo de usuário não definido.");
-                mudarTela('tela-2');
-                return;
+function precoParaNumero(preco) {
+    const num = parseFloat(String(preco ?? '0').replace(',', '.'));
+    return isNaN(num) ? 0 : num;
+}
+
+function mensagemErro(err) {
+    if (err && err.code === 'permission-denied') {
+        return 'Sem permissão para ler esses dados. Verifique as regras de segurança do Firestore.';
+    }
+    return 'Erro ao carregar: ' + (err && err.message ? err.message : 'tente novamente.');
+}
+
+function toast(msg, isError) {
+    if (typeof window.showToast === 'function') window.showToast(msg, isError);
+    else if (isError) alert(msg);
+}
+
+function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+// ==========================================
+// AUTH
+// ==========================================
+
+window.irParaLogin = function(tipo) {
+    tipoUsuario = tipo;
+    mudarTela('tela-login');
+};
+
+window.loginComGoogle = async function() {
+    if (!tipoUsuario) {
+        alert("Erro: Tipo de usuário não definido.");
+        mudarTela('tela-2');
+        return;
+    }
+    try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        const nome = user.displayName || "Usuário";
+        const email = user.email || "";
+
+        localStorage.setItem('tipoUsuario', tipoUsuario);
+        localStorage.setItem('nomeUsuario', nome);
+        localStorage.setItem('emailUsuario', email);
+
+        const nomePerfil = document.getElementById('nomePerfil');
+        const emailPerfil = document.getElementById('emailPerfil');
+        if (nomePerfil) nomePerfil.textContent = nome;
+        if (emailPerfil) emailPerfil.textContent = email;
+
+        if (tipoUsuario === 'empresa') {
+            const empresaRef = doc(db, "empresas", user.uid);
+            const empresaSnap = await getDoc(empresaRef);
+            if (!empresaSnap.exists()) {
+                await setDoc(empresaRef, {
+                    uid: user.uid,
+                    nome: nome,
+                    email: email,
+                    categoria: 'Restaurante',
+                    cnpj: '',
+                    endereco: '',
+                    chavePix: '',
+                    aberto: true,
+                    criadoEm: serverTimestamp()
+                });
             }
+            mudarTela('tela-10');
+        } else {
+            mudarTela('tela-5');
+            setTimeout(async () => {
+                try {
+                    const snap = await getDoc(doc(db, "clientes", user.uid));
+                    if (snap.exists() && snap.data().localidade) {
+                        atualizarLocalidadeHome(snap.data().localidade);
+                    }
+                } catch(e) {}
+            }, 600);
+        }
+    } catch (error) {
+        console.error("Erro no login:", error);
+        alert("Erro ao fazer login: " + error.message);
+    }
+};
 
-            try {
-                const result = await signInWithPopup(auth, provider);
-                const user = result.user;
-                const nome = user.displayName || "Usuário";
-                const email = user.email || "";
+// ==========================================
+// CADASTRO / LOGIN POR E-MAIL E SENHA
+// ==========================================
 
-                console.log("Usuário logado:", nome);
-                console.log("Tipo:", tipoUsuario);
+function mostrarErroForm(elId, mensagem) {
+    const el = document.getElementById(elId);
+    if (!el) return;
+    el.textContent = mensagem;
+    el.style.display = mensagem ? 'block' : 'none';
+}
 
-                // Salvar no localStorage para manter sessão
-                localStorage.setItem('tipoUsuario', tipoUsuario);
-                localStorage.setItem('nomeUsuario', nome);
-                localStorage.setItem('emailUsuario', email);
+function traduzirErroAuth(err) {
+    const codigo = err && err.code ? err.code : '';
+    switch (codigo) {
+        case 'auth/email-already-in-use':
+            return 'Este e-mail já está cadastrado. Tente entrar em vez de cadastrar.';
+        case 'auth/invalid-email':
+            return 'E-mail inválido.';
+        case 'auth/weak-password':
+            return 'Senha muito fraca. Use pelo menos 8 caracteres.';
+        case 'auth/user-not-found':
+        case 'auth/wrong-password':
+        case 'auth/invalid-credential':
+            return 'E-mail ou senha incorretos.';
+        case 'auth/too-many-requests':
+            return 'Muitas tentativas. Aguarde um pouco e tente novamente.';
+        default:
+            return 'Erro: ' + (err && err.message ? err.message : 'tente novamente.');
+    }
+}
 
-                // Atualiza perfil do cliente se existir
-                const nomePerfil = document.getElementById('nomePerfil');
-                const emailPerfil = document.getElementById('emailPerfil');
-                if (nomePerfil) nomePerfil.textContent = nome;
-                if (emailPerfil) emailPerfil.textContent = email;
+// Leva da tela de login para o cadastro certo (cliente ou empresa),
+// respeitando o tipo escolhido na tela de seleção de acesso.
+window.irParaCadastro = function() {
+    irParaCadastroTipo(tipoUsuario === 'empresa' ? 'empresa' : 'cliente');
+};
 
-                if (tipoUsuario === 'cliente') {
-                    mudarTela('tela-5'); // HOME CLIENTE
-                } else if (tipoUsuario === 'empresa') {
-                    mudarTela('tela-4'); // CADASTRO EMPRESA
-                } else {
-                    mudarTela('tela-5');
-                }
-            } catch (error) {
-                console.error("Erro no login:", error);
-                alert("Erro ao fazer login: " + error.message);
+// Alterna entre "Sou Cliente" / "Sou Empresa" dentro do próprio cadastro
+window.irParaCadastroTipo = function(tipo) {
+    tipoUsuario = tipo;
+    const destino = tipo === 'empresa' ? 'tela-4' : 'tela-3';
+    mudarTela(destino);
+
+    document.querySelectorAll('#tela-3 .aba, #tela-4 .aba').forEach(btn => btn.classList.remove('ativa'));
+    const abaCliente = document.getElementById('aba-cliente');
+    const abaEmpresaLink = document.getElementById('aba-empresa-link');
+    const abaEmpresa = document.getElementById('aba-empresa');
+    if (tipo === 'cliente' && abaCliente) abaCliente.classList.add('ativa');
+    if (tipo === 'empresa' && abaEmpresaLink) abaEmpresaLink.classList.add('ativa');
+    if (tipo === 'empresa' && abaEmpresa) abaEmpresa.classList.add('ativa');
+};
+
+window.cadastrarCliente = async function() {
+    mostrarErroForm('cadClienteErro', '');
+    const nome = document.getElementById('cadNome')?.value.trim() || '';
+    const email = document.getElementById('cadEmail')?.value.trim() || '';
+    const telefone = document.getElementById('cadTelefone')?.value.trim() || '';
+    const localidade = document.getElementById('cadLocalidade')?.value.trim() || '';
+    const senha = document.getElementById('cadSenha')?.value || '';
+
+    if (!nome || !email || !senha) {
+        mostrarErroForm('cadClienteErro', 'Preencha nome, e-mail e senha.');
+        return;
+    }
+    if (senha.length < 8) {
+        mostrarErroForm('cadClienteErro', 'A senha precisa ter no mínimo 8 caracteres.');
+        return;
+    }
+
+    const btn = document.getElementById('btnCadastrarCliente');
+    if (btn) { btn.disabled = true; btn.textContent = 'Criando conta...'; }
+
+    try {
+        const cred = await createUserWithEmailAndPassword(auth, email, senha);
+        await updateProfile(cred.user, { displayName: nome });
+
+        await setDoc(doc(db, "clientes", cred.user.uid), {
+            uid: cred.user.uid,
+            nome,
+            email,
+            telefone,
+            localidade,
+            criadoEm: serverTimestamp()
+        }, { merge: true });
+
+        localStorage.setItem('tipoUsuario', 'cliente');
+        localStorage.setItem('nomeUsuario', nome);
+        localStorage.setItem('emailUsuario', email);
+        tipoUsuario = 'cliente';
+
+        toast('✅ Conta criada com sucesso!');
+        mudarTela('tela-5');
+        atualizarLocalidadeHome(localidade);
+    } catch (err) {
+        console.error(err);
+        mostrarErroForm('cadClienteErro', traduzirErroAuth(err));
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Cadastrar'; }
+    }
+};
+
+window.cadastrarEmpresa = async function() {
+    mostrarErroForm('cadEmpresaErro', '');
+    const nome = document.getElementById('empNome')?.value.trim() || '';
+    const email = document.getElementById('empEmail')?.value.trim() || '';
+    const cnpj = document.getElementById('empCnpj')?.value.trim() || '';
+    const categoria = document.getElementById('empCategoria')?.value || '';
+    const endereco = document.getElementById('empEndereco')?.value.trim() || '';
+    const senha = document.getElementById('empSenha')?.value || '';
+
+    if (!nome || !email || !categoria || !senha) {
+        mostrarErroForm('cadEmpresaErro', 'Preencha nome da loja, e-mail, categoria e senha.');
+        return;
+    }
+    if (senha.length < 8) {
+        mostrarErroForm('cadEmpresaErro', 'A senha precisa ter no mínimo 8 caracteres.');
+        return;
+    }
+
+    const btn = document.getElementById('btnCadastrarEmpresa');
+    if (btn) { btn.disabled = true; }
+
+    try {
+        const cred = await createUserWithEmailAndPassword(auth, email, senha);
+        await updateProfile(cred.user, { displayName: nome });
+
+        await setDoc(doc(db, "empresas", cred.user.uid), {
+            uid: cred.user.uid,
+            nome,
+            email,
+            cnpj,
+            categoria,
+            endereco,
+            chavePix: '',
+            aberto: true,
+            criadoEm: serverTimestamp()
+        }, { merge: true });
+
+        localStorage.setItem('tipoUsuario', 'empresa');
+        localStorage.setItem('nomeUsuario', nome);
+        localStorage.setItem('emailUsuario', email);
+        tipoUsuario = 'empresa';
+
+        toast('✅ Loja cadastrada com sucesso!');
+        mudarTela('tela-10');
+    } catch (err) {
+        console.error(err);
+        mostrarErroForm('cadEmpresaErro', traduzirErroAuth(err));
+    } finally {
+        if (btn) { btn.disabled = false; }
+    }
+};
+
+window.loginComEmailSenha = async function() {
+    mostrarErroForm('loginErro', '');
+    const email = document.getElementById('loginEmail')?.value.trim() || '';
+    const senha = document.getElementById('loginSenha')?.value || '';
+
+    if (!tipoUsuario) {
+        mostrarErroForm('loginErro', 'Volte e escolha "Entrar como Cliente" ou "Entrar como Empresa".');
+        return;
+    }
+    if (!email || !senha) {
+        mostrarErroForm('loginErro', 'Informe e-mail e senha.');
+        return;
+    }
+
+    try {
+        const cred = await signInWithEmailAndPassword(auth, email, senha);
+        const user = cred.user;
+
+        localStorage.setItem('tipoUsuario', tipoUsuario);
+        localStorage.setItem('nomeUsuario', user.displayName || '');
+        localStorage.setItem('emailUsuario', user.email || '');
+
+        const nomePerfil = document.getElementById('nomePerfil');
+        const emailPerfil = document.getElementById('emailPerfil');
+        if (nomePerfil) nomePerfil.textContent = user.displayName || 'Usuário';
+        if (emailPerfil) emailPerfil.textContent = user.email || '';
+
+        if (tipoUsuario === 'empresa') {
+            mudarTela('tela-10');
+        } else {
+            mudarTela('tela-5');
+            setTimeout(async () => {
+                try {
+                    const snap = await getDoc(doc(db, "clientes", user.uid));
+                    if (snap.exists() && snap.data().localidade) {
+                        atualizarLocalidadeHome(snap.data().localidade);
+                    }
+                } catch(e) {}
+            }, 600);
+        }
+    } catch (err) {
+        console.error(err);
+        mostrarErroForm('loginErro', traduzirErroAuth(err));
+    }
+};
+
+window.sairDaConta = function() {
+    [unsubscribePedidosCliente, unsubscribePedidosEmpresa, unsubscribePreparoEmpresa,
+     unsubscribeConcluidosEmpresa, unsubscribeRecusadosEmpresa, unsubscribeChat,
+     unsubscribeConversasEmpresa, unsubscribeProdutosEmpresa, unsubscribeProdutosCliente,
+     unsubscribeEmpresas, unsubscribeNotificacoes, unsubscribeStatusLoja,
+     unsubscribeDetalhePedido].forEach(fn => {
+        if (typeof fn === 'function') fn();
+    });
+    unsubscribePedidosCliente = unsubscribePedidosEmpresa = unsubscribePreparoEmpresa =
+        unsubscribeConcluidosEmpresa = unsubscribeRecusadosEmpresa = unsubscribeChat =
+        unsubscribeConversasEmpresa = unsubscribeProdutosEmpresa = unsubscribeProdutosCliente =
+        unsubscribeEmpresas = unsubscribeNotificacoes = unsubscribeStatusLoja =
+        unsubscribeDetalhePedido = null;
+
+    auth.signOut().then(() => {
+        tipoUsuario = null;
+        fotoPerfilBase64 = null;
+        limparCarrinho();
+        localStorage.removeItem('tipoUsuario');
+        localStorage.removeItem('nomeUsuario');
+        localStorage.removeItem('emailUsuario');
+        mudarTela('tela-2');
+    }).catch((error) => console.error("Erro ao sair:", error));
+};
+
+// ==========================================
+// PERFIL DO CLIENTE
+// ==========================================
+
+let fotoPerfilBase64 = null;
+
+function atualizarLocalidadeHome(localidade) {
+    const enderecoEl = document.getElementById('home-local-endereco');
+    if (enderecoEl) {
+        enderecoEl.textContent = localidade && localidade.trim() !== '' ? localidade : 'Minha Localidade';
+    }
+}
+
+window.carregarPerfilCliente = async function() {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const nomePerfil = document.getElementById('nomePerfil');
+    const emailPerfil = document.getElementById('emailPerfil');
+    if (nomePerfil) nomePerfil.textContent = user.displayName || 'Usuário';
+    if (emailPerfil) emailPerfil.textContent = user.email || '';
+
+    const fotoEl = document.getElementById('perfilFotoEl');
+    if (fotoEl && user.photoURL) {
+        fotoEl.style.backgroundImage = `url('${user.photoURL}')`;
+    }
+
+    try {
+        const snap = await getDoc(doc(db, "clientes", user.uid));
+        if (snap.exists()) {
+            const dados = snap.data();
+            if (fotoEl && dados.foto) {
+                fotoEl.style.backgroundImage = `url('${dados.foto}')`;
+                fotoPerfilBase64 = dados.foto;
             }
-        };
+            const tel = document.getElementById('perfilTelefone');
+            if (tel && dados.telefone) tel.value = dados.telefone;
+            const loc = document.getElementById('perfilLocalidade');
+            if (loc && dados.localidade) loc.value = dados.localidade;
+            atualizarLocalidadeHome(dados.localidade || '');
+        }
+    } catch(e) {
+        console.error("Erro ao carregar perfil:", e);
+    }
 
-        // Função para sair da conta
-        window.sairDaConta = function() {
-            auth.signOut().then(() => {
-                tipoUsuario = null;
-                localStorage.removeItem('tipoUsuario');
-                localStorage.removeItem('nomeUsuario');
-                localStorage.removeItem('emailUsuario');
-                mudarTela('tela-2');
-            }).catch((error) => {
-                console.error("Erro ao sair:", error);
+    const inputFoto = document.getElementById('inputFotoPerfil');
+    if (inputFoto && !inputFoto._listenerAdded) {
+        inputFoto.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                fotoPerfilBase64 = ev.target.result;
+                const fotoEl = document.getElementById('perfilFotoEl');
+                if (fotoEl) fotoEl.style.backgroundImage = `url('${fotoPerfilBase64}')`;
+            };
+            reader.readAsDataURL(file);
+        });
+        inputFoto._listenerAdded = true;
+    }
+};
+
+window.salvarPerfil = async function() {
+    const user = auth.currentUser;
+    if (!user) { toast('Você precisa estar logado.', true); return; }
+
+    const telefone = document.getElementById('perfilTelefone')?.value.trim() || '';
+    const localidade = document.getElementById('perfilLocalidade')?.value.trim() || '';
+
+    const dados = {
+        uid: user.uid,
+        nome: user.displayName || '',
+        email: user.email || '',
+        telefone,
+        localidade,
+        atualizadoEm: serverTimestamp()
+    };
+
+    if (fotoPerfilBase64 && fotoPerfilBase64.startsWith('data:')) {
+        dados.foto = fotoPerfilBase64;
+    }
+
+    try {
+        await setDoc(doc(db, "clientes", user.uid), dados, { merge: true });
+        atualizarLocalidadeHome(localidade);
+        toast('✅ Perfil salvo com sucesso!');
+    } catch(e) {
+        console.error(e);
+        toast('Erro ao salvar perfil: ' + e.message, true);
+    }
+};
+
+// ==========================================
+// STATUS DA LOJA (Aberto/Fechado) — em tempo real
+// ==========================================
+
+let unsubscribeStatusLoja = null;
+let lojaAbertaAtual = true;
+
+window.observarStatusLoja = function() {
+    const user = auth.currentUser;
+    if (!user) return;
+    if (unsubscribeStatusLoja) unsubscribeStatusLoja();
+
+    unsubscribeStatusLoja = onSnapshot(doc(db, "empresas", user.uid), (snap) => {
+        if (snap.exists()) {
+            lojaAbertaAtual = snap.data().aberto !== false;
+            if (typeof window.aplicarEstadoLoja === 'function') window.aplicarEstadoLoja(lojaAbertaAtual);
+        }
+    }, (err) => console.error('Erro ao observar status da loja:', err));
+};
+
+window.toggleStatusLoja = async function() {
+    const user = auth.currentUser;
+    if (!user) return;
+    const novoEstado = !lojaAbertaAtual;
+    try {
+        await updateDoc(doc(db, "empresas", user.uid), { aberto: novoEstado });
+        // A UI é atualizada pelo listener onSnapshot acima assim que a
+        // escrita é confirmada — mantém tudo consistente entre abas/dispositivos.
+    } catch (err) {
+        console.error(err);
+        toast('Erro ao atualizar status da loja: ' + err.message, true);
+    }
+};
+
+// ==========================================
+// AJUSTES / DADOS DA LOJA
+// ==========================================
+
+window.carregarAjustesEmpresa = async function() {
+    const user = auth.currentUser;
+    if (!user) return;
+    try {
+        const snap = await getDoc(doc(db, "empresas", user.uid));
+        if (snap.exists()) {
+            const e = snap.data();
+            const nomeEl = document.getElementById('ajustes-nome-loja');
+            const cnpjEl = document.getElementById('ajustes-cnpj-loja');
+            if (nomeEl) nomeEl.textContent = e.nome || 'Minha Loja';
+            if (cnpjEl) cnpjEl.textContent = 'CNPJ: ' + (e.cnpj && e.cnpj.trim() !== '' ? e.cnpj : 'não informado');
+        }
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+window.abrirDadosDaLoja = async function() {
+    const form = document.getElementById('form-dados-loja');
+    if (!form) return;
+    const abrindo = form.style.display === 'none';
+    form.style.display = abrindo ? 'block' : 'none';
+    if (!abrindo) return;
+
+    const user = auth.currentUser;
+    if (!user) return;
+    try {
+        const snap = await getDoc(doc(db, "empresas", user.uid));
+        if (snap.exists()) {
+            const e = snap.data();
+            const nomeI = document.getElementById('lojaNome');
+            const cnpjI = document.getElementById('lojaCnpj');
+            const catI = document.getElementById('lojaCategoria');
+            const endI = document.getElementById('lojaEndereco');
+            const pixI = document.getElementById('lojaChavePix');
+            if (nomeI) nomeI.value = e.nome || '';
+            if (cnpjI) cnpjI.value = e.cnpj || '';
+            if (catI && e.categoria) catI.value = e.categoria;
+            if (endI) endI.value = e.endereco || '';
+            if (pixI) pixI.value = e.chavePix || '';
+        }
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+window.salvarDadosDaLoja = async function() {
+    const user = auth.currentUser;
+    if (!user) { toast('Você precisa estar logado.', true); return; }
+
+    const nome = document.getElementById('lojaNome')?.value.trim() || '';
+    const cnpj = document.getElementById('lojaCnpj')?.value.trim() || '';
+    const categoria = document.getElementById('lojaCategoria')?.value || 'Restaurante';
+    const endereco = document.getElementById('lojaEndereco')?.value.trim() || '';
+    const chavePix = document.getElementById('lojaChavePix')?.value.trim() || '';
+
+    if (!nome) { toast('Informe o nome da loja.', true); return; }
+
+    try {
+        await updateDoc(doc(db, "empresas", user.uid), { nome, cnpj, categoria, endereco, chavePix });
+        toast('✅ Dados da loja salvos!');
+        window.carregarAjustesEmpresa();
+        const form = document.getElementById('form-dados-loja');
+        if (form) form.style.display = 'none';
+    } catch (err) {
+        console.error(err);
+        toast('Erro ao salvar dados da loja: ' + err.message, true);
+    }
+};
+
+// ==========================================
+// CADASTRO / EDIÇÃO / EXCLUSÃO DE PRODUTO
+// ==========================================
+
+window.abrirCadastroProduto = function() {
+    window._modoEdicaoProduto = null;
+    mudarTela('tela-14');
+    setTimeout(() => {
+        const titulo = document.querySelector('#tela-14 h1');
+        const btn = document.getElementById('btnSalvarProduto');
+        if (titulo) titulo.textContent = 'Cadastrar Produto';
+        if (btn) btn.innerHTML = '<span class="material-symbols-outlined">save</span> Salvar Produto';
+        inicializarCadastroProduto();
+    }, 100);
+};
+
+window.editarProduto = async function(produtoId) {
+    try {
+        const snap = await getDoc(doc(db, "produtos", produtoId));
+        if (!snap.exists()) { toast('Produto não encontrado.', true); return; }
+        const p = snap.data();
+
+        window._modoEdicaoProduto = produtoId;
+        mudarTela('tela-14');
+        setTimeout(() => {
+            inicializarCadastroProduto();
+            document.getElementById('productName').value = p.nome || '';
+            document.getElementById('productCategory').value = p.categoria || '';
+            document.getElementById('productPrice').value = String(p.preco ?? '').replace('.', ',');
+            document.getElementById('productDescription').value = p.descricao || '';
+            if (p.foto && typeof window._setImagemProdutoAtual === 'function') {
+                window._setImagemProdutoAtual(p.foto);
+            }
+            const titulo = document.querySelector('#tela-14 h1');
+            const btn = document.getElementById('btnSalvarProduto');
+            if (titulo) titulo.textContent = 'Editar Produto';
+            if (btn) btn.innerHTML = '<span class="material-symbols-outlined">save</span> Salvar Alterações';
+        }, 100);
+    } catch (err) {
+        console.error(err);
+        toast('Erro ao carregar produto: ' + err.message, true);
+    }
+};
+
+window.excluirProduto = async function(produtoId, nomeProduto) {
+    if (!confirm(`Remover "${nomeProduto}" do cardápio?`)) return;
+    try {
+        await deleteDoc(doc(db, "produtos", produtoId));
+        toast('Produto removido.');
+    } catch (err) {
+        console.error(err);
+        toast('Erro ao remover produto: ' + err.message, true);
+    }
+};
+
+window.alternarDisponibilidade = async function(produtoId, disponivel) {
+    try {
+        await updateDoc(doc(db, "produtos", produtoId), { disponivel });
+    } catch (err) {
+        console.error(err);
+        toast('Erro ao atualizar disponibilidade: ' + err.message, true);
+    }
+};
+
+window.fecharCadastroProduto = function() {
+    window._modoEdicaoProduto = null;
+    mudarTela('tela-11');
+};
+
+window.salvarProduto = async function() {
+    const nome = document.getElementById("productName").value.trim();
+    const categoria = document.getElementById("productCategory").value;
+    const precoTexto = document.getElementById("productPrice").value.trim();
+    const descricao = document.getElementById("productDescription").value.trim();
+
+    if (!nome || !categoria || !precoTexto) {
+        toast("Preencha todos os campos obrigatórios.", true);
+        return;
+    }
+
+    const preco = precoParaNumero(precoTexto);
+    if (preco <= 0) {
+        toast("Informe um preço válido.", true);
+        return;
+    }
+
+    const user = auth.currentUser;
+    if (!user) {
+        toast("Você precisa estar logado para cadastrar um produto.", true);
+        return;
+    }
+
+    let nomeEmpresa = user.displayName || "Empresa";
+    try {
+        const empresaSnap = await getDoc(doc(db, "empresas", user.uid));
+        if (empresaSnap.exists()) nomeEmpresa = empresaSnap.data().nome || nomeEmpresa;
+    } catch(e) {}
+
+    const dadosProduto = {
+        nome,
+        categoria,
+        preco,
+        descricao,
+        foto: (typeof currentImageData !== 'undefined' ? currentImageData : null),
+        empresa: user.uid,
+        nomeEmpresa
+    };
+
+    try {
+        if (window._modoEdicaoProduto) {
+            await updateDoc(doc(db, "produtos", window._modoEdicaoProduto), dadosProduto);
+            toast("Produto atualizado com sucesso!");
+        } else {
+            dadosProduto.disponivel = true;
+            dadosProduto.criadoEm = serverTimestamp();
+            await addDoc(collection(db, "produtos"), dadosProduto);
+            toast("Produto cadastrado com sucesso!");
+        }
+
+        window._modoEdicaoProduto = null;
+        document.getElementById("productName").value = "";
+        document.getElementById("productPrice").value = "";
+        document.getElementById("productDescription").value = "";
+        document.getElementById("productCategory").selectedIndex = 0;
+        if (typeof window._resetFotoProduto === 'function') window._resetFotoProduto();
+
+        mudarTela("tela-11");
+    } catch (erro) {
+        console.error(erro);
+        toast("Erro ao salvar produto: " + erro.message, true);
+    }
+};
+
+// ==========================================
+// CARDÁPIO DA EMPRESA (tela-11) — tempo real
+// ==========================================
+
+let unsubscribeProdutosEmpresa = null;
+
+window.carregarProdutos = function() {
+    const lista = document.getElementById("cardapio-content");
+    if (!lista) return;
+    const user = auth.currentUser;
+    if (!user) {
+        lista.innerHTML = '<p style="text-align:center; padding:20px;">Faça login para ver seus produtos</p>';
+        return;
+    }
+
+    if (unsubscribeProdutosEmpresa) unsubscribeProdutosEmpresa();
+
+    lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Carregando...</p>';
+
+    const q = query(collection(db, "produtos"), where("empresa", "==", user.uid));
+    unsubscribeProdutosEmpresa = onSnapshot(q, (produtos) => {
+        if (produtos.empty) {
+            lista.innerHTML = '<p style="text-align:center; padding:20px;">Nenhum produto cadastrado. Clique no + para adicionar.</p>';
+            return;
+        }
+        let categoriasMap = new Map();
+        produtos.forEach((docSnap) => {
+            const produto = { id: docSnap.id, ...docSnap.data() };
+            const categoria = produto.categoria || 'Outros';
+            if (!categoriasMap.has(categoria)) categoriasMap.set(categoria, []);
+            categoriasMap.get(categoria).push(produto);
+        });
+        let html = '';
+        for (let [categoria, produtosList] of categoriasMap) {
+            html += `<h3>${categoria}</h3>`;
+            produtosList.forEach(produto => {
+                const disponivel = produto.disponivel !== false;
+                const nomeSeguro = (produto.nome || 'Produto').replace(/'/g, "\\'");
+                html += `
+                    <div class="cardapio-item">
+                        ${produto.foto ? `<img src="${produto.foto}" alt="" style="width:52px;height:52px;border-radius:10px;object-fit:cover;margin-right:10px;">` : ''}
+                        <div style="flex:1;">
+                            <h4>${produto.nome || 'Sem nome'}</h4>
+                            <p>${produto.descricao || ''}</p>
+                            <span class="cardapio-price">${formatarPreco(produto.preco)}</span>
+                            <div style="display:flex; gap:14px; margin-top:6px;">
+                                <button style="border:none;background:none;color:var(--primary,#e50615);font-size:12px;font-weight:600;cursor:pointer;padding:0;" onclick="editarProduto('${produto.id}')">Editar</button>
+                                <button style="border:none;background:none;color:#999;font-size:12px;font-weight:600;cursor:pointer;padding:0;" onclick="excluirProduto('${produto.id}', '${nomeSeguro}')">Excluir</button>
+                            </div>
+                        </div>
+                        <label class="cardapio-switch">
+                            <input type="checkbox" ${disponivel ? 'checked' : ''} onchange="alternarDisponibilidade('${produto.id}', this.checked)">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                `;
             });
-        };
+        }
+        lista.innerHTML = html;
+    }, (erro) => {
+        console.error(erro);
+        lista.innerHTML = `<p style="text-align:center; padding:20px; color:#888;">${mensagemErro(erro)}</p>`;
+    });
+};
 
-        // Verifica se já tem sessão salva ao carregar
-        window.addEventListener('DOMContentLoaded', function() {
-            const tipoSalvo = localStorage.getItem('tipoUsuario');
-            const nomeSalvo = localStorage.getItem('nomeUsuario');
-            const emailSalvo = localStorage.getItem('emailUsuario');
-            
-            if (tipoSalvo && nomeSalvo) {
-                tipoUsuario = tipoSalvo;
-                const nomePerfil = document.getElementById('nomePerfil');
-                const emailPerfil = document.getElementById('emailPerfil');
-                if (nomePerfil) nomePerfil.textContent = nomeSalvo;
-                if (emailPerfil) emailPerfil.textContent = emailSalvo;
-                
-                if (tipoSalvo === 'cliente') {
-                    mudarTela('tela-5');
-                } else if (tipoSalvo === 'empresa') {
-                    mudarTela('tela-10');
+// ==========================================
+// LISTA DE EMPRESAS (tela-16) — tempo real
+// ==========================================
+
+let unsubscribeEmpresas = null;
+let cacheEmpresas = [];
+
+window.abrirListaEmpresas = function(categoriaFiltro) {
+    mudarTela('tela-16');
+    const lista = document.getElementById('listaEmpresas');
+    const titulo = document.getElementById('titulo-lista-empresas');
+    if (titulo) {
+        const titulosPorCategoria = {
+            'Restaurante': 'Restaurantes',
+            'Mercado': 'Mercados',
+            'Farmácia': 'Farmácias',
+            'Bebidas': 'Bebidas',
+            'Pet Shop': 'Pet Shops'
+        };
+        titulo.textContent = categoriaFiltro ? (titulosPorCategoria[categoriaFiltro] || categoriaFiltro) : 'Todas as Lojas';
+    }
+    if (!lista) return;
+
+    if (unsubscribeEmpresas) unsubscribeEmpresas();
+
+    lista.innerHTML = '<p style="text-align:center; color:#888;">Carregando empresas...</p>';
+
+    const ref = categoriaFiltro
+        ? query(collection(db, "empresas"), where("categoria", "==", categoriaFiltro))
+        : collection(db, "empresas");
+
+    unsubscribeEmpresas = onSnapshot(ref, (snap) => {
+        if (snap.empty) {
+            lista.innerHTML = categoriaFiltro
+                ? `<p style="text-align:center; color:#888;">Nenhuma loja de "${categoriaFiltro}" disponível no momento.</p>`
+                : '<p style="text-align:center; color:#888;">Nenhuma empresa disponível no momento.</p>';
+            return;
+        }
+        cacheEmpresas = [];
+        lista.innerHTML = '';
+        snap.forEach(docEmp => {
+            const e = docEmp.data();
+            cacheEmpresas.push({ id: docEmp.id, ...e });
+            const aberta = e.aberto !== false;
+            const card = document.createElement('div');
+            card.style.cssText = 'background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.08);cursor:pointer;display:flex;align-items:center;gap:14px;transition:transform 0.15s;';
+            card.innerHTML = `
+                <div style="width:52px;height:52px;background:rgba(229,6,21,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <span class="material-symbols-outlined" style="color:var(--primary);font-size:26px;">storefront</span>
+                </div>
+                <div style="flex:1;">
+                    <h3 style="margin:0;font-size:15px;font-weight:600;">${e.nome || 'Loja'}</h3>
+                    <p style="margin:4px 0 0;font-size:12px;color:#888;">${e.categoria || 'Restaurante'}</p>
+                </div>
+                <span style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:${aberta ? '#e7f8ef' : '#fdeceb'};color:${aberta ? '#10b981' : '#ef4444'};">${aberta ? 'Aberto' : 'Fechado'}</span>
+                <span class="material-symbols-outlined" style="color:#ccc;">chevron_right</span>
+            `;
+            card.onclick = () => abrirCardapioEmpresa(docEmp.id, e.nome || 'Loja');
+            lista.appendChild(card);
+        });
+    }, (err) => {
+        console.error(err);
+        lista.innerHTML = `<p style="text-align:center; color:#888;">${mensagemErro(err)}</p>`;
+    });
+};
+
+// ==========================================
+// CARDÁPIO DE UMA EMPRESA (tela-15) — tempo real
+// ==========================================
+
+let empresaSelecionada = null;
+let unsubscribeProdutosCliente = null;
+let empresaSelecionadaAberta = true;
+
+window.abrirCardapioEmpresa = async function(empresaId, empresaNome) {
+    empresaSelecionada = { id: empresaId, nome: empresaNome };
+    mudarTela('tela-15');
+
+    const titulo = document.getElementById('titulo-cardapio-empresa');
+    if (titulo) titulo.textContent = empresaNome;
+
+    const aviso = document.getElementById('loja-fechada-aviso');
+
+    try {
+        const empresaSnap = await getDoc(doc(db, "empresas", empresaId));
+        empresaSelecionadaAberta = empresaSnap.exists() ? (empresaSnap.data().aberto !== false) : true;
+    } catch(e) {
+        empresaSelecionadaAberta = true;
+    }
+    if (aviso) aviso.style.display = empresaSelecionadaAberta ? 'none' : 'block';
+
+    const lista = document.getElementById('listaProdutosCliente');
+    if (!lista) return;
+
+    if (unsubscribeProdutosCliente) unsubscribeProdutosCliente();
+
+    lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Carregando cardápio...</p>';
+
+    const q = query(collection(db, "produtos"), where("empresa", "==", empresaId));
+    unsubscribeProdutosCliente = onSnapshot(q, (snap) => {
+        const produtosDisponiveis = [];
+        snap.forEach(docProd => {
+            const p = docProd.data();
+            if (p.disponivel === false) return;
+            produtosDisponiveis.push({ id: docProd.id, ...p });
+        });
+
+        if (produtosDisponiveis.length === 0) {
+            lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Esta empresa ainda não tem produtos disponíveis.</p>';
+            atualizarBarraCarrinho();
+            return;
+        }
+        lista.innerHTML = '';
+        produtosDisponiveis.forEach(p => {
+            const nomeSeguro = (p.nome || 'Produto').replace(/'/g, "\\'");
+            const empresaNomeSeguro = (empresaNome || 'Loja').replace(/'/g, "\\'");
+            const card = document.createElement('div');
+            card.className = 'produto-cliente-card';
+            const qtdAtual = carrinho.itens[p.id] ? carrinho.itens[p.id].quantidade : 0;
+            card.innerHTML = `
+                ${p.foto ? `<img src="${p.foto}" alt="" style="width:100%;height:100px;object-fit:cover;border-radius:10px;margin-bottom:8px;">` : ''}
+                <h3>${p.nome || 'Produto'}</h3>
+                <p>${p.descricao || ''}</p>
+                <strong>${formatarPreco(p.preco)}</strong>
+                <div class="produto-carrinho-controles" data-produto-id="${p.id}" style="display:flex; align-items:center; justify-content:space-between; margin-top:8px;">
+                    <button ${empresaSelecionadaAberta ? '' : 'disabled'} style="width:30px;height:30px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;" onclick="alterarQuantidadeCarrinho('${p.id}', '${nomeSeguro}', '${p.preco}', '${empresaId}', '${empresaNomeSeguro}', -1)">−</button>
+                    <span class="qtd-produto-${p.id}" style="min-width:20px;text-align:center;font-weight:600;">${qtdAtual}</span>
+                    <button ${empresaSelecionadaAberta ? '' : 'disabled'} style="width:30px;height:30px;border-radius:50%;border:none;background:var(--primary,#e50615);color:#fff;cursor:pointer;" onclick="alterarQuantidadeCarrinho('${p.id}', '${nomeSeguro}', '${p.preco}', '${empresaId}', '${empresaNomeSeguro}', 1)">+</button>
+                </div>
+            `;
+            lista.appendChild(card);
+        });
+        atualizarBarraCarrinho();
+    }, (err) => {
+        console.error(err);
+        lista.innerHTML = `<p style="text-align:center; padding:20px; color:#888;">${mensagemErro(err)}</p>`;
+    });
+};
+
+// ==========================================
+// CARRINHO / SACOLA (multi-item, com quantidade)
+// ==========================================
+
+let carrinho = { empresaId: null, empresaNome: null, itens: {} };
+
+function limparCarrinho() {
+    carrinho = { empresaId: null, empresaNome: null, itens: {} };
+    atualizarBarraCarrinho();
+}
+
+window.alterarQuantidadeCarrinho = function(produtoId, nome, preco, empresaId, empresaNome, delta) {
+    if (delta > 0 && !empresaSelecionadaAberta) {
+        toast('Esta loja está fechada no momento. Não é possível adicionar itens.', true);
+        return;
+    }
+
+    if (carrinho.empresaId && carrinho.empresaId !== empresaId && Object.keys(carrinho.itens).length > 0) {
+        if (!confirm('Sua sacola tem itens de outra loja. Deseja esvaziá-la e adicionar este item?')) {
+            return;
+        }
+        carrinho = { empresaId: null, empresaNome: null, itens: {} };
+    }
+
+    carrinho.empresaId = empresaId;
+    carrinho.empresaNome = empresaNome;
+
+    const atual = carrinho.itens[produtoId] || { nome, preco: precoParaNumero(preco), quantidade: 0 };
+    atual.quantidade += delta;
+    if (atual.quantidade <= 0) {
+        delete carrinho.itens[produtoId];
+    } else {
+        carrinho.itens[produtoId] = atual;
+    }
+
+    const qtdEl = document.querySelector(`.qtd-produto-${produtoId}`);
+    if (qtdEl) qtdEl.textContent = carrinho.itens[produtoId] ? carrinho.itens[produtoId].quantidade : 0;
+
+    atualizarBarraCarrinho();
+};
+
+function totalCarrinho() {
+    return Object.values(carrinho.itens).reduce((soma, it) => soma + it.preco * it.quantidade, 0);
+}
+
+function quantidadeTotalCarrinho() {
+    return Object.values(carrinho.itens).reduce((soma, it) => soma + it.quantidade, 0);
+}
+
+function atualizarBarraCarrinho() {
+    const barra = document.getElementById('barra-carrinho');
+    const texto = document.getElementById('carrinho-resumo-texto');
+    if (!barra || !texto) return;
+    const qtd = quantidadeTotalCarrinho();
+    if (qtd === 0) {
+        barra.style.display = 'none';
+        return;
+    }
+    barra.style.display = 'flex';
+    texto.textContent = `${qtd} ${qtd === 1 ? 'item' : 'itens'} • ${formatarPreco(totalCarrinho())}`;
+}
+
+window.abrirResumoCarrinho = function() {
+    if (quantidadeTotalCarrinho() === 0) return;
+    mudarTela('tela-18');
+};
+
+window.renderizarResumoCarrinho = function() {
+    const lista = document.getElementById('resumoCarrinhoLista');
+    const totalEl = document.getElementById('resumoCarrinhoTotal');
+    if (!lista || !totalEl) return;
+
+    const ids = Object.keys(carrinho.itens);
+    if (ids.length === 0) {
+        lista.innerHTML = '<p style="text-align:center; color:#888;">Sua sacola está vazia.</p>';
+        totalEl.textContent = formatarPreco(0);
+        return;
+    }
+
+    lista.innerHTML = '';
+    ids.forEach(id => {
+        const it = carrinho.itens[id];
+        const linha = document.createElement('div');
+        linha.style.cssText = 'display:flex; align-items:center; justify-content:space-between; gap:10px; border-bottom:1px solid #f0f0f0; padding-bottom:10px;';
+        linha.innerHTML = `
+            <div>
+                <strong style="font-size:14px;">${esc(it.nome)}</strong>
+                <div style="font-size:12px; color:#888;">${formatarPreco(it.preco)} cada</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+                <button style="width:26px;height:26px;border-radius:50%;border:1px solid #ddd;background:#fff;cursor:pointer;" onclick="alterarQuantidadeResumo('${id}', -1)">−</button>
+                <span style="min-width:16px;text-align:center;font-weight:600;">${it.quantidade}</span>
+                <button style="width:26px;height:26px;border-radius:50%;border:none;background:var(--primary,#e50615);color:#fff;cursor:pointer;" onclick="alterarQuantidadeResumo('${id}', 1)">+</button>
+            </div>
+        `;
+        lista.appendChild(linha);
+    });
+    totalEl.textContent = formatarPreco(totalCarrinho());
+};
+
+window.alterarQuantidadeResumo = function(produtoId, delta) {
+    const it = carrinho.itens[produtoId];
+    if (!it) return;
+    it.quantidade += delta;
+    if (it.quantidade <= 0) delete carrinho.itens[produtoId];
+    window.renderizarResumoCarrinho();
+    atualizarBarraCarrinho();
+    if (quantidadeTotalCarrinho() === 0) mudarTela('tela-15');
+};
+
+// ==========================================
+// PIX COPIA E COLA (padrão BR Code do Banco Central)
+// ==========================================
+
+function semAcento(s) {
+    return String(s || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^A-Za-z0-9 ]/g, '').toUpperCase().trim();
+}
+function tlv(id, valor) { return id + String(valor.length).padStart(2, '0') + valor; }
+function crc16(str) {
+    let crc = 0xFFFF;
+    for (let i = 0; i < str.length; i++) {
+        crc ^= str.charCodeAt(i) << 8;
+        for (let j = 0; j < 8; j++) {
+            crc = (crc & 0x8000) ? ((crc << 1) ^ 0x1021) : (crc << 1);
+            crc &= 0xFFFF;
+        }
+    }
+    return crc.toString(16).toUpperCase().padStart(4, '0');
+}
+function gerarPixCopiaECola({ chave, nome, cidade, valor, txid }) {
+    const conta = tlv('00', 'br.gov.bcb.pix') + tlv('01', chave.trim());
+    const payload =
+        tlv('00', '01') +
+        tlv('26', conta) +
+        tlv('52', '0000') +
+        tlv('53', '986') +
+        tlv('54', valor.toFixed(2)) +
+        tlv('58', 'BR') +
+        tlv('59', semAcento(nome).slice(0, 25) || 'LOJA') +
+        tlv('60', semAcento(cidade).slice(0, 15) || 'BRASIL') +
+        tlv('62', tlv('05', (txid || '***').replace(/[^A-Za-z0-9]/g, '').slice(0, 25) || '***')) +
+        '6304';
+    return payload + crc16(payload);
+}
+
+// ==========================================
+// TELA 18: FINALIZAR PEDIDO / TELA 19: FORMA DE PAGAMENTO
+// ==========================================
+
+let enderecoCheckout = '';
+
+window.preencherCheckout = async function() {
+    const el = document.getElementById('checkout-endereco');
+    const user = auth.currentUser;
+    if (!el || !user) return;
+    try {
+        const snap = await getDoc(doc(db, 'clientes', user.uid));
+        enderecoCheckout = snap.exists() ? (snap.data().localidade || '').trim() : '';
+    } catch (e) { enderecoCheckout = ''; }
+    el.textContent = enderecoCheckout || 'Toque para informar seu endereço';
+};
+
+window.irParaPagamento = function() {
+    if (quantidadeTotalCarrinho() === 0) { toast('Sua sacola está vazia.', true); return; }
+    if (!enderecoCheckout) {
+        toast('Informe seu endereço no perfil para continuar.', true);
+        mudarTela('tela-9');
+        return;
+    }
+    mudarTela('tela-19');
+};
+
+let formaPagamento = 'Pix';
+
+window.prepararPagamento = function() {
+    const el = document.getElementById('pagamentoTotal');
+    if (el) el.textContent = formatarPreco(totalCarrinho());
+};
+
+window.selecionarPagamento = function(forma) {
+    formaPagamento = forma;
+    document.querySelectorAll('.pg-opcao').forEach(b => b.classList.toggle('selecionada', b.dataset.forma === forma));
+};
+
+window.confirmarPedidoCarrinho = async function() {
+    const user = auth.currentUser;
+    if (!user) { toast('Você precisa estar logado para fazer um pedido.', true); return; }
+
+    const ids = Object.keys(carrinho.itens);
+    if (ids.length === 0) { toast('Sua sacola está vazia.', true); return; }
+
+    const btn = document.getElementById('btnConfirmarPagamento');
+    if (btn) btn.disabled = true;
+
+    try {
+        // loja ainda aberta? + dados da loja (chave Pix)
+        let empresa = {};
+        try {
+            const empresaSnap = await getDoc(doc(db, 'empresas', carrinho.empresaId));
+            if (empresaSnap.exists()) {
+                empresa = empresaSnap.data();
+                if (empresa.aberto === false) {
+                    toast('Essa loja acabou de fechar. Não é possível concluir o pedido agora.', true);
+                    return;
                 }
+            }
+        } catch (e) { console.error(e); }
+
+        // dados do cliente
+        let clienteLocalidade = '', clienteTelefone = '';
+        try {
+            const perfilSnap = await getDoc(doc(db, 'clientes', user.uid));
+            if (perfilSnap.exists()) {
+                clienteLocalidade = perfilSnap.data().localidade || '';
+                clienteTelefone = perfilSnap.data().telefone || '';
+            }
+        } catch (e) { console.error(e); }
+
+        if (!clienteLocalidade.trim()) {
+            toast('Informe seu endereço no perfil para continuar.', true);
+            mudarTela('tela-9');
+            return;
+        }
+
+        const forma = formaPagamento;
+        const itens = ids.map(id => ({
+            produtoId: id,
+            nome: carrinho.itens[id].nome,
+            preco: carrinho.itens[id].preco,
+            quantidade: carrinho.itens[id].quantidade
+        }));
+        const total = totalCarrinho();
+        const resumoNomes = itens.map(i => `${i.quantidade}x ${i.nome}`).join(', ');
+        const empresaId = carrinho.empresaId;
+        const empresaNome = carrinho.empresaNome;
+
+        const pedidoRef = await addDoc(collection(db, 'pedidos'), {
+            clienteId: user.uid,
+            clienteNome: user.displayName || 'Cliente',
+            clienteEmail: user.email || '',
+            clienteLocalidade,
+            clienteTelefone,
+            empresaId,
+            empresaNome,
+            itens,
+            preco: total,
+            quantidade: quantidadeTotalCarrinho(),
+            pagamento: {
+                forma,                                                // 'Pix' | 'Cartão' | 'Dinheiro'
+                status: forma === 'Pix' ? 'Aguardando' : 'Na entrega'  // 'Aguardando' | 'Aprovado' | 'Na entrega'
+            },
+            status: 'Pendente',
+            criadoEm: serverTimestamp()
+        });
+
+        criarNotificacao(empresaId, {
+            tipo: 'pedido_novo',
+            titulo: 'Novo pedido recebido',
+            corpo: `${user.displayName || 'Um cliente'} pediu: ${resumoNomes} (${forma})`,
+            pedidoId: pedidoRef.id
+        });
+
+        // ---- monta a mensagem do Pix antes de limpar a sacola ----
+        let mensagemPix = '';
+        if (forma === 'Pix') {
+            const numero = pedidoRef.id.slice(0, 6).toUpperCase();
+            const linhasItens = itens.map(i => `• ${i.quantidade}x ${i.nome}`).join('\n');
+            mensagemPix =
+`🧾 NOVO PEDIDO #${numero}
+${linhasItens}
+
+💰 Total: ${formatarPreco(total)}
+📍 Entrega: ${clienteLocalidade}
+💳 Pagamento: Pix
+`;
+            if (empresa.chavePix && empresa.chavePix.trim()) {
+                const copiaECola = gerarPixCopiaECola({
+                    chave: empresa.chavePix,
+                    nome: empresaNome,
+                    cidade: 'BRASIL',
+                    valor: total,
+                    txid: pedidoRef.id
+                });
+                mensagemPix +=
+`
+Para pagar, use o Pix abaixo:
+🔑 Chave Pix: ${empresa.chavePix.trim()}
+
+📋 Pix Copia e Cola (já com o valor):
+${copiaECola}
+
+Depois de pagar, envie o comprovante aqui no chat. 🙏`;
+            } else {
+                mensagemPix += `\n⚠️ A loja ainda não cadastrou a chave Pix. Aguarde a loja enviar os dados para pagamento e depois mande o comprovante aqui.`;
+            }
+        }
+
+        limparCarrinho();
+
+        if (forma === 'Pix') {
+            toast('✅ Pedido enviado! Pague via Pix e envie o comprovante.');
+            await abrirChatComEmpresa(empresaId, empresaNome);   // abre o chat com a loja
+            await window.enviarMensagem(mensagemPix);            // mensagem automática
+        } else {
+            toast('✅ Pedido enviado! Aguarde a confirmação da loja.');
+            mudarTela('tela-7');
+        }
+    } catch (err) {
+        console.error(err);
+        toast('Erro ao fazer pedido: ' + err.message, true);
+    } finally {
+        if (btn) btn.disabled = false;
+    }
+};
+
+// ==========================================
+// PEDIDOS DO CLIENTE EM TEMPO REAL (tela-7)
+// ==========================================
+
+let unsubscribePedidosCliente = null;
+
+function itensParaTexto(pedido) {
+    if (Array.isArray(pedido.itens) && pedido.itens.length > 0) {
+        return pedido.itens.map(i => `${i.quantidade}x ${i.nome}`).join('<br>');
+    }
+    // compatibilidade com pedidos antigos (item único)
+    return `1x ${pedido.nomeProduto || 'Item'}`;
+}
+
+window.carregarPedidosCliente = function() {
+    const user = auth.currentUser;
+    const lista = document.getElementById('pedidos-cliente-lista');
+    if (!lista) return;
+
+    if (!user) {
+        lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Faça login para ver seus pedidos.</p>';
+        return;
+    }
+
+    if (unsubscribePedidosCliente) unsubscribePedidosCliente();
+
+    lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Carregando...</p>';
+
+    const q = query(collection(db, "pedidos"), where("clienteId", "==", user.uid));
+
+    unsubscribePedidosCliente = onSnapshot(q, (snap) => {
+        if (snap.empty) {
+            lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Você ainda não fez nenhum pedido.</p>';
+            return;
+        }
+
+        const pedidos = [];
+        snap.forEach(d => pedidos.push({ id: d.id, ...d.data() }));
+        pedidos.sort((a, b) => (b.criadoEm?.seconds || 0) - (a.criadoEm?.seconds || 0));
+
+        lista.innerHTML = '';
+        pedidos.forEach(p => {
+            const corStatus = p.status === 'Aceito' ? '#10b981' : p.status === 'Recusado' ? '#ef4444' : p.status === 'Concluído' ? '#6366f1' : '#f59e0b';
+            const iconeStatus = p.status === 'Aceito' ? 'check_circle' : p.status === 'Recusado' ? 'cancel' : p.status === 'Concluído' ? 'task_alt' : 'schedule';
+            const precoFormatado = formatarPreco(p.preco);
+
+            const div = document.createElement('div');
+            div.className = 'pedido-card';
+            div.style.cssText = 'margin-bottom:12px;';
+            div.innerHTML = `
+                <div class="pedido-info">
+                    <div class="pedido-titulo">
+                        <h3>${p.empresaNome || 'Empresa'}</h3>
+                        <span style="display:flex;align-items:center;gap:4px;background:${corStatus};color:#fff;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;">
+                            <span class="material-symbols-outlined" style="font-size:13px;">${iconeStatus}</span>
+                            ${p.status}
+                        </span>
+                    </div>
+                    <p class="pedido-descricao">${itensParaTexto(p)}</p>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;">
+                        <p class="pedido-data" style="color:#e50615;font-weight:600;margin:0;">${precoFormatado}</p>
+                        <button style="display:flex;align-items:center;gap:4px;background:#f0f0f0;color:#333;border:none;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;"
+                            onclick="abrirChatComEmpresa('${p.empresaId}', '${(p.empresaNome || 'Empresa').replace(/'/g,"\\'")}')">
+                            <span class="material-symbols-outlined" style="font-size:15px;">chat</span>
+                            Falar com a loja
+                        </button>
+                    </div>
+                </div>
+            `;
+            lista.appendChild(div);
+        });
+    }, (err) => {
+        console.error(err);
+        lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Erro ao carregar pedidos.</p>';
+    });
+};
+
+// ==========================================
+// PEDIDOS DA EMPRESA EM TEMPO REAL (tela-10)
+// ==========================================
+
+let unsubscribePedidosEmpresa = null;
+let unsubscribePreparoEmpresa = null;
+let unsubscribeConcluidosEmpresa = null;
+let unsubscribeRecusadosEmpresa = null;
+let cachePedidosPorStatus = { Pendente: [], Aceito: [], 'Concluído': [], Recusado: [] };
+let filtroPedidosEmpresa = 'Pendente';
+
+window.mostrarPedidosPorStatus = function(status) {
+    filtroPedidosEmpresa = status;
+    const titulos = {
+        'Pendente': 'Pedidos Pendentes',
+        'Aceito': 'Pedidos em Preparo',
+        'Concluído': 'Pedidos Entregues',
+        'Recusado': 'Pedidos Recusados'
+    };
+    const titulo = document.getElementById('loja-section-title');
+    if (titulo) titulo.textContent = titulos[status] || 'Pedidos';
+
+    const mapaCards = { 'Pendente': 'card-pendentes', 'Aceito': 'card-preparo', 'Concluído': 'card-concluidos', 'Recusado': 'card-recusados' };
+    Object.entries(mapaCards).forEach(([st, id]) => {
+        const el = document.getElementById(id);
+        if (el) el.style.outline = status === st ? '2px solid var(--primary, #e50615)' : 'none';
+    });
+
+    renderizarPedidosEmpresa();
+};
+
+function renderizarPedidosEmpresa() {
+    const lista = document.getElementById('loja-pedidos-lista');
+    if (!lista) return;
+
+    const pedidos = cachePedidosPorStatus[filtroPedidosEmpresa] || [];
+
+    if (pedidos.length === 0) {
+        lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Nenhum pedido nesta categoria no momento.</p>';
+        return;
+    }
+
+    lista.innerHTML = '';
+    pedidos.forEach(p => {
+        const precoFormatado = formatarPreco(p.preco);
+        const nomeSeguro = (p.clienteNome || 'Cliente').replace(/'/g, "\\'");
+        const div = document.createElement('div');
+        div.className = 'loja-pedido';
+
+        let botoesAcao = '';
+        if (filtroPedidosEmpresa === 'Pendente') {
+            botoesAcao = `
+                <button style="flex:1;padding:10px;background:#10b981;color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;"
+                    onclick="aceitarPedido('${p.id}', '${p.clienteId}', '${nomeSeguro}')">✓ Aceitar</button>
+                <button style="flex:1;padding:10px;background:#ef4444;color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;"
+                    onclick="responderPedido('${p.id}', 'Recusado')">✗ Recusar</button>
+                <button style="padding:10px 12px;background:#f0f0f0;color:#333;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;display:flex;align-items:center;"
+                    onclick="abrirChatComCliente('${p.clienteId}', '${nomeSeguro}')">
+                    <span class="material-symbols-outlined" style="font-size:18px;">chat</span>
+                </button>
+            `;
+        } else if (filtroPedidosEmpresa === 'Aceito') {
+            botoesAcao = `
+                <button style="flex:1;padding:10px;background:#10b981;color:#fff;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;"
+                    onclick="responderPedido('${p.id}', 'Concluído')">✓ Marcar como Entregue</button>
+                <button style="padding:10px 12px;background:#f0f0f0;color:#333;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;display:flex;align-items:center;"
+                    onclick="abrirChatComCliente('${p.clienteId}', '${nomeSeguro}')">
+                    <span class="material-symbols-outlined" style="font-size:18px;">chat</span> Falar com o cliente
+                </button>
+            `;
+        } else {
+            botoesAcao = `
+                <button style="flex:1;padding:10px;background:#f0f0f0;color:#333;border:none;border-radius:10px;font-weight:600;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;gap:6px;"
+                    onclick="abrirChatComCliente('${p.clienteId}', '${nomeSeguro}')">
+                    <span class="material-symbols-outlined" style="font-size:18px;">chat</span> Falar com o cliente
+                </button>
+            `;
+        }
+
+        const enderecoHtml = (filtroPedidosEmpresa === 'Aceito' || filtroPedidosEmpresa === 'Concluído') ? `
+                <div style="display:flex; align-items:center; gap:6px; margin:6px 0; color:#555; font-size:13px;">
+                    <span class="material-symbols-outlined" style="font-size:16px;">location_on</span>
+                    ${p.clienteLocalidade ? p.clienteLocalidade : 'Endereço não informado pelo cliente'}
+                </div>
+                ${p.clienteTelefone ? `
+                <div style="display:flex; align-items:center; gap:6px; margin:2px 0 6px; color:#555; font-size:13px;">
+                    <span class="material-symbols-outlined" style="font-size:16px;">call</span>
+                    ${p.clienteTelefone}
+                </div>` : ''}
+        ` : '';
+
+        const formaPg = p.pagamento && p.pagamento.forma ? p.pagamento.forma : '';
+        const pagoOk = p.pagamento && p.pagamento.status === 'Aprovado';
+
+        div.innerHTML = `
+            <div class="pedido-top">
+                <strong>${p.clienteNome || 'Cliente'}</strong>
+                <strong>${precoFormatado}</strong>
+            </div>
+            <div class="pedido-list" style="margin:6px 0;">${itensParaTexto(p)}</div>
+            ${formaPg ? `<div style="font-size:12px; color:#555; margin-bottom:4px;">💳 ${esc(formaPg)}${formaPg === 'Pix' ? (pagoOk ? ' • pago ✔' : ' • aguardando comprovante') : ''}</div>` : ''}
+            <button class="pedido-ver-detalhes" onclick="abrirDetalhesPedido('${p.id}')">Ver detalhes ›</button>
+            ${enderecoHtml}
+            <div style="display:flex;gap:8px;margin-top:10px;">
+                ${botoesAcao}
+            </div>
+        `;
+        lista.appendChild(div);
+    });
+}
+
+window.carregarPedidosEmpresa = function() {
+    const user = auth.currentUser;
+    const lista = document.getElementById('loja-pedidos-lista');
+    if (!lista) return;
+
+    if (!user) {
+        lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Faça login para ver os pedidos.</p>';
+        return;
+    }
+
+    [unsubscribePedidosEmpresa, unsubscribePreparoEmpresa, unsubscribeConcluidosEmpresa, unsubscribeRecusadosEmpresa].forEach(fn => { if (fn) fn(); });
+
+    lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Carregando...</p>';
+    filtroPedidosEmpresa = 'Pendente';
+    const titulo = document.getElementById('loja-section-title');
+    if (titulo) titulo.textContent = 'Pedidos Pendentes';
+
+    const statusParaContador = {
+        'Pendente': 'contador-pendentes',
+        'Aceito': 'contador-preparo',
+        'Concluído': 'contador-concluidos',
+        'Recusado': 'contador-recusados'
+    };
+
+    function escutarStatus(status, setUnsub) {
+        const q = query(collection(db, "pedidos"), where("empresaId", "==", user.uid), where("status", "==", status));
+        const unsub = onSnapshot(q, (snap) => {
+            const contadorEl = document.getElementById(statusParaContador[status]);
+            if (contadorEl) contadorEl.textContent = snap.size;
+
+            cachePedidosPorStatus[status] = [];
+            snap.forEach(d => cachePedidosPorStatus[status].push({ id: d.id, ...d.data() }));
+            cachePedidosPorStatus[status].sort((a, b) => (b.criadoEm?.seconds || 0) - (a.criadoEm?.seconds || 0));
+
+            if (filtroPedidosEmpresa === status) renderizarPedidosEmpresa();
+        }, (err) => {
+            console.error(err);
+            if (filtroPedidosEmpresa === status) {
+                lista.innerHTML = `<p style="text-align:center; padding:20px; color:#888;">${mensagemErro(err)}</p>`;
             }
         });
+        return unsub;
+    }
+
+    unsubscribePedidosEmpresa = escutarStatus('Pendente');
+    unsubscribePreparoEmpresa = escutarStatus('Aceito');
+    unsubscribeConcluidosEmpresa = escutarStatus('Concluído');
+    unsubscribeRecusadosEmpresa = escutarStatus('Recusado');
+};
+
+window.responderPedido = async function(pedidoId, novoStatus) {
+    try {
+        const pedidoSnap = await getDoc(doc(db, "pedidos", pedidoId));
+        await updateDoc(doc(db, "pedidos", pedidoId), { status: novoStatus });
+
+        if (pedidoSnap.exists()) {
+            const p = pedidoSnap.data();
+            let titulo = 'Atualização do seu pedido';
+            let corpo = `Seu pedido em ${p.empresaNome || 'loja'} agora está: ${novoStatus}`;
+            if (novoStatus === 'Recusado') {
+                titulo = 'Pedido recusado';
+                corpo = `A loja ${p.empresaNome || ''} recusou seu pedido.`;
+            } else if (novoStatus === 'Concluído') {
+                titulo = 'Pedido entregue';
+                corpo = `Seu pedido em ${p.empresaNome || 'loja'} foi marcado como entregue.`;
+            }
+            criarNotificacao(p.clienteId, { tipo: 'pedido_status', titulo, corpo, pedidoId });
+        }
+    } catch (err) {
+        console.error(err);
+        toast('Erro ao atualizar pedido: ' + err.message, true);
+    }
+};
+
+window.aceitarPedido = async function(pedidoId, clienteId, clienteNome) {
+    try {
+        const pedidoSnap = await getDoc(doc(db, "pedidos", pedidoId));
+        await updateDoc(doc(db, "pedidos", pedidoId), { status: 'Aceito' });
+
+        if (pedidoSnap.exists()) {
+            const p = pedidoSnap.data();
+            criarNotificacao(clienteId, {
+                tipo: 'pedido_status',
+                titulo: 'Pedido aceito!',
+                corpo: `${p.empresaNome || 'A loja'} aceitou seu pedido.`,
+                pedidoId
+            });
+        }
+
+        await abrirChatComCliente(clienteId, clienteNome);
+    } catch (err) {
+        console.error(err);
+        toast('Erro ao aceitar pedido: ' + err.message, true);
+    }
+};
+
+// ==========================================
+// TELA 20: DETALHES DO PEDIDO (empresa)
+// ==========================================
+
+let unsubscribeDetalhePedido = null;
+let detalheAtual = null;
+
+window.abrirDetalhesPedido = function(pedidoId) {
+    mudarTela('tela-20');
+    const box = document.getElementById('detalhe-pedido-conteudo');
+    if (box) box.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Carregando...</p>';
+    if (unsubscribeDetalhePedido) unsubscribeDetalhePedido();
+
+    unsubscribeDetalhePedido = onSnapshot(doc(db, 'pedidos', pedidoId), (snap) => {
+        if (!snap.exists()) {
+            box.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Pedido não encontrado.</p>';
+            return;
+        }
+        detalheAtual = { id: snap.id, ...snap.data() };
+        renderizarDetalhePedido();
+    }, (err) => {
+        console.error(err);
+        box.innerHTML = `<p style="text-align:center; padding:20px; color:#888;">${mensagemErro(err)}</p>`;
+    });
+};
+
+window.fecharDetalhesPedido = function() {
+    if (unsubscribeDetalhePedido) { unsubscribeDetalhePedido(); unsubscribeDetalhePedido = null; }
+    mudarTela('tela-10');
+};
+
+function renderizarDetalhePedido() {
+    const p = detalheAtual;
+    const box = document.getElementById('detalhe-pedido-conteudo');
+    if (!p || !box) return;
+
+    const nome = p.clienteNome || 'Cliente';
+    const iniciais = nome.split(' ').map(x => x[0]).slice(0, 2).join('').toUpperCase();
+    const pg = p.pagamento || { forma: 'Não informado', status: '' };
+    const nomesForma = { 'Pix': 'Pix', 'Cartão': 'Cartão de crédito ou débito', 'Dinheiro': 'Dinheiro na entrega' };
+
+    let badgePg;
+    if (pg.status === 'Aprovado') badgePg = '<span class="det-badge verde">✔ Pagamento aprovado</span>';
+    else if (pg.forma === 'Pix') badgePg = '<span class="det-badge laranja">Aguardando comprovante</span>';
+    else badgePg = '<span class="det-badge azul">Pagar na entrega</span>';
+
+    const rotulosStatus = { 'Pendente': ['Pendente de preparo', 'laranja'], 'Aceito': ['Em preparo', 'verde'], 'Concluído': ['Entregue', 'azul'], 'Recusado': ['Recusado', 'vermelho'] };
+    const [txtStatus, corStatus] = rotulosStatus[p.status] || [p.status, 'laranja'];
+
+    const itensHtml = (Array.isArray(p.itens) ? p.itens : []).map(i =>
+        `<div class="det-item"><span>${esc(i.quantidade)}x ${esc(i.nome)}</span><strong>${formatarPreco(i.preco * i.quantidade)}</strong></div>`
+    ).join('') || `<div class="det-item"><span>1x ${esc(p.nomeProduto || 'Item')}</span></div>`;
+
+    let acoes = '';
+    if (p.status === 'Pendente') {
+        acoes += `<button class="det-btn primario" onclick="detalheAcao('aceitar')">Aceitar pedido</button>
+                  <button class="det-btn cinza" onclick="detalheAcao('recusar')">Recusar</button>`;
+    } else if (p.status === 'Aceito') {
+        acoes += `<button class="det-btn primario" onclick="detalheAcao('entregue')">Marcar como entregue</button>`;
+    }
+    if (pg.forma === 'Pix' && pg.status !== 'Aprovado' && p.status !== 'Recusado') {
+        acoes += `<button class="det-btn contorno" onclick="detalheAcao('pagamento')">Confirmar pagamento recebido</button>`;
+    }
+    acoes += `<button class="det-btn cinza" onclick="detalheAcao('chat')">Falar com o cliente</button>`;
+
+    box.innerHTML = `
+        <div class="det-card det-cliente">
+            <div class="det-avatar">${esc(iniciais)}</div>
+            <div class="det-cliente-info">${esc(nome)}<span>${esc(p.clienteTelefone || 'Telefone não informado')}</span></div>
+            ${p.clienteTelefone ? `<a class="det-ligar" href="tel:${esc(p.clienteTelefone.replace(/[^\d+]/g, ''))}"><span class="material-symbols-outlined">call</span></a>` : ''}
+        </div>
+
+        <div class="det-card">
+            <h3>Itens do pedido</h3>
+            ${itensHtml}
+            <div class="det-total"><span>Total</span><span>${formatarPreco(p.preco)}</span></div>
+        </div>
+
+        <div class="det-card">
+            <div class="det-bloco">
+                <span class="det-rotulo">Forma de pagamento</span>
+                <span class="det-valor">${esc(nomesForma[pg.forma] || pg.forma)}</span>
+                ${badgePg}
+            </div>
+            <div class="det-bloco">
+                <span class="det-rotulo">Status do pedido</span>
+                <span class="det-badge ${corStatus}">${esc(txtStatus)}</span>
+            </div>
+            <div class="det-bloco">
+                <span class="det-rotulo">Endereço de entrega</span>
+                <span class="det-valor">${esc(p.clienteLocalidade || 'Não informado')}</span>
+            </div>
+        </div>
+
+        <div class="det-acoes">${acoes}</div>
+    `;
+}
+
+window.detalheAcao = async function(acao) {
+    const p = detalheAtual;
+    if (!p) return;
+    try {
+        if (acao === 'aceitar') await responderPedido(p.id, 'Aceito');
+        else if (acao === 'recusar') await responderPedido(p.id, 'Recusado');
+        else if (acao === 'entregue') await responderPedido(p.id, 'Concluído');
+        else if (acao === 'chat') await abrirChatComCliente(p.clienteId, p.clienteNome || 'Cliente');
+        else if (acao === 'pagamento') {
+            await updateDoc(doc(db, 'pedidos', p.id), { 'pagamento.status': 'Aprovado' });
+            criarNotificacao(p.clienteId, {
+                tipo: 'pedido_status',
+                titulo: 'Pagamento confirmado',
+                corpo: `${p.empresaNome || 'A loja'} confirmou o recebimento do seu Pix.`,
+                pedidoId: p.id
+            });
+            toast('✅ Pagamento confirmado');
+        }
+    } catch (err) {
+        console.error(err);
+        toast('Erro: ' + err.message, true);
+    }
+};
+
+// ==========================================
+// CHAT REAL EM TEMPO REAL (Firestore)
+// ==========================================
+
+let conversaAtualId = null;
+let conversaAtualDados = null;
+let unsubscribeChat = null;
+let unsubscribeConversasEmpresa = null;
+
+function gerarConversaId(uidCliente, uidEmpresa) {
+    return [uidCliente, uidEmpresa].sort().join('_');
+}
+
+// A tela de chat (tela-8) é compartilhada entre cliente e empresa.
+// Aqui montamos o menu certo (e o botão de voltar certo) de acordo
+// com quem está usando o chat no momento.
+function aplicarNavegacaoChat(souEmpresa) {
+    const nav = document.getElementById('chat-nav');
+    const btnVoltar = document.getElementById('chat-btn-voltar');
+
+    if (souEmpresa) {
+        if (nav) {
+            nav.innerHTML = `
+                <button onclick="mudarTela('tela-10')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button>
+                <button onclick="mudarTela('tela-11')" class="nav-item"><span class="material-symbols-outlined">restaurant_menu</span><span>Cardápio</span></button>
+                <button onclick="mudarTela('tela-12')" class="nav-item ativo"><span class="material-symbols-outlined">chat</span><span>Mensagens</span></button>
+                <button onclick="mudarTela('tela-13')" class="nav-item"><span class="material-symbols-outlined">settings</span><span>Ajustes</span></button>
+            `;
+        }
+        if (btnVoltar) btnVoltar.setAttribute('onclick', "mudarTela('tela-12')");
+    } else {
+        if (nav) {
+            nav.innerHTML = `
+                <button onclick="mudarTela('tela-5')" class="nav-item"><span class="material-symbols-outlined">home</span><span>Início</span></button>
+                <button onclick="mudarTela('tela-6')" class="nav-item"><span class="material-symbols-outlined">search</span><span>Buscar</span></button>
+                <button onclick="mudarTela('tela-7')" class="nav-item ativo"><span class="material-symbols-outlined">receipt_long</span><span>Pedidos</span></button>
+                <button onclick="mudarTela('tela-9')" class="nav-item"><span class="material-symbols-outlined">person</span><span>Perfil</span></button>
+            `;
+        }
+        if (btnVoltar) btnVoltar.setAttribute('onclick', "mudarTela('tela-7')");
+    }
+}
+
+async function abrirConversa(clienteId, empresaId, dadosIniciais) {
+    const user = auth.currentUser;
+    if (!user) { toast('Você precisa estar logado.', true); return; }
+
+    const conversaId = gerarConversaId(clienteId, empresaId);
+    conversaAtualId = conversaId;
+    conversaAtualDados = dadosIniciais;
+
+    const conversaRef = doc(db, 'conversas', conversaId);
+    try {
+        const snap = await getDoc(conversaRef);
+        if (!snap.exists()) {
+            await setDoc(conversaRef, {
+                participantes: [clienteId, empresaId],
+                clienteId: dadosIniciais.clienteId,
+                clienteNome: dadosIniciais.clienteNome,
+                empresaId: dadosIniciais.empresaId,
+                empresaNome: dadosIniciais.empresaNome,
+                ultimaMensagem: '',
+                ultimaMensagemEm: serverTimestamp()
+            });
+        } else {
+            await setDoc(conversaRef, {
+                clienteNome: dadosIniciais.clienteNome,
+                empresaNome: dadosIniciais.empresaNome
+            }, { merge: true });
+        }
+    } catch (err) {
+        console.error(err);
+        toast('Erro ao abrir conversa: ' + err.message, true);
+        return;
+    }
+
+    const souEmpresa = user.uid === empresaId;
+    const nomeOutro = souEmpresa ? dadosIniciais.clienteNome : dadosIniciais.empresaNome;
+    const tituloEl = document.getElementById('chat-nome-contato');
+    if (tituloEl) tituloEl.textContent = nomeOutro || 'Conversa';
+
+    aplicarNavegacaoChat(souEmpresa);
+
+    mudarTela('tela-8');
+    setTimeout(() => { if (typeof inicializarChat === 'function') inicializarChat(); }, 100);
+    escutarMensagens(conversaId);
+}
+
+window.abrirChatComEmpresa = async function(empresaId, empresaNome) {
+    const user = auth.currentUser;
+    if (!user) { toast('Você precisa estar logado.', true); return; }
+    await abrirConversa(user.uid, empresaId, {
+        clienteId: user.uid,
+        clienteNome: user.displayName || 'Cliente',
+        empresaId: empresaId,
+        empresaNome: empresaNome
+    });
+};
+
+window.abrirChatComCliente = async function(clienteId, clienteNome) {
+    const user = auth.currentUser;
+    if (!user) { toast('Você precisa estar logado.', true); return; }
+    await abrirConversa(clienteId, user.uid, {
+        clienteId: clienteId,
+        clienteNome: clienteNome,
+        empresaId: user.uid,
+        empresaNome: user.displayName || 'Empresa'
+    });
+};
+
+window.abrirChatEmpresaAtual = function() {
+    if (!empresaSelecionada) { toast('Abra o cardápio de uma loja primeiro.', true); return; }
+    abrirChatComEmpresa(empresaSelecionada.id, empresaSelecionada.nome);
+};
+
+function escutarMensagens(conversaId) {
+    if (unsubscribeChat) { unsubscribeChat(); unsubscribeChat = null; }
+    const chatMessages = document.getElementById('chat-mensagens');
+    if (chatMessages) chatMessages.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Carregando mensagens...</p>';
+
+    const q = query(collection(db, 'conversas', conversaId, 'mensagens'), orderBy('criadoEm', 'asc'));
+    unsubscribeChat = onSnapshot(q, (snap) => {
+        const user = auth.currentUser;
+        if (!chatMessages || !user) return;
+
+        if (snap.empty) {
+            chatMessages.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Nenhuma mensagem ainda. Diga olá!</p>';
+            return;
+        }
+
+        chatMessages.innerHTML = '';
+        let dataAnterior = '';
+        snap.forEach(docMsg => {
+            const m = docMsg.data();
+            const dataMsg = m.criadoEm?.toDate ? m.criadoEm.toDate() : new Date();
+            const dataStr = dataMsg.toLocaleDateString('pt-BR');
+            if (dataStr !== dataAnterior) {
+                const divData = document.createElement('div');
+                divData.className = 'chat-data';
+                divData.textContent = dataStr === new Date().toLocaleDateString('pt-BR') ? 'Hoje' : dataStr;
+                chatMessages.appendChild(divData);
+                dataAnterior = dataStr;
+            }
+
+            const souEu = m.remetenteId === user.uid;
+            const hora = m.criadoEm?.toDate ? dataMsg.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '';
+
+            const div = document.createElement('div');
+            div.className = 'mensagem ' + (souEu ? 'mensagem-enviada' : 'mensagem-recebida');
+
+            if (souEu) {
+                div.innerHTML = `
+                    <div class="mensagem-conteudo">
+                        <div class="mensagem-balao mensagem-balao-enviada"><p></p></div>
+                        <div class="mensagem-status">
+                            <span class="mensagem-hora">${hora}</span>
+                            <span class="material-symbols-outlined">done_all</span>
+                        </div>
+                    </div>
+                `;
+            } else {
+                div.innerHTML = `
+                    <div class="mensagem-conteudo">
+                        <div class="mensagem-balao"><p></p></div>
+                        <span class="mensagem-hora">${hora}</span>
+                    </div>
+                `;
+            }
+            div.querySelector('p').textContent = m.texto || '';
+            chatMessages.appendChild(div);
+        });
+
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }, (err) => {
+        console.error(err);
+        if (chatMessages) chatMessages.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Erro ao carregar mensagens.</p>';
+    });
+}
+
+window.enviarMensagem = async function(texto) {
+    texto = (texto || '').trim();
+    if (!texto) return;
+    const user = auth.currentUser;
+    if (!user) { toast('Você precisa estar logado.', true); return; }
+    if (!conversaAtualId) { toast('Nenhuma conversa aberta.', true); return; }
+
+    const souEmpresa = conversaAtualDados && user.uid === conversaAtualDados.empresaId;
+    const destinatarioId = souEmpresa ? conversaAtualDados.clienteId : conversaAtualDados.empresaId;
+    const meuNome = souEmpresa ? (conversaAtualDados.empresaNome || 'Empresa') : (conversaAtualDados.clienteNome || 'Cliente');
+
+    try {
+        await addDoc(collection(db, 'conversas', conversaAtualId, 'mensagens'), {
+            remetenteId: user.uid,
+            remetenteTipo: souEmpresa ? 'empresa' : 'cliente',
+            texto: texto,
+            criadoEm: serverTimestamp()
+        });
+        await updateDoc(doc(db, 'conversas', conversaAtualId), {
+            ultimaMensagem: texto,
+            ultimaMensagemEm: serverTimestamp()
+        });
+
+        if (destinatarioId) {
+            criarNotificacao(destinatarioId, {
+                tipo: 'mensagem',
+                titulo: `Nova mensagem de ${meuNome}`,
+                corpo: texto,
+                conversaId: conversaAtualId
+            });
+        }
+    } catch (err) {
+        console.error(err);
+        toast('Erro ao enviar mensagem: ' + err.message, true);
+    }
+};
+
+window.carregarConversasEmpresa = function() {
+    const user = auth.currentUser;
+    const lista = document.getElementById('mensagens-lista');
+    if (!lista) return;
+
+    if (!user) {
+        lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Faça login para ver suas mensagens.</p>';
+        return;
+    }
+
+    if (unsubscribeConversasEmpresa) unsubscribeConversasEmpresa();
+
+    lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Carregando conversas...</p>';
+
+    const q = query(collection(db, 'conversas'), where('empresaId', '==', user.uid));
+
+    unsubscribeConversasEmpresa = onSnapshot(q, (snap) => {
+        if (snap.empty) {
+            lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Nenhuma conversa ainda.</p>';
+            return;
+        }
+
+        const conversas = [];
+        snap.forEach(d => conversas.push({ id: d.id, ...d.data() }));
+        conversas.sort((a, b) => (b.ultimaMensagemEm?.seconds || 0) - (a.ultimaMensagemEm?.seconds || 0));
+
+        lista.innerHTML = '';
+        conversas.forEach(c => {
+            const iniciais = (c.clienteNome || 'C').split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+            const item = document.createElement('div');
+            item.className = 'mensagem-item';
+            item.setAttribute('data-nome', c.clienteNome || '');
+            item.setAttribute('data-id', c.id);
+            item.innerHTML = `
+                <div class="avatar avatar1">${iniciais}</div>
+                <div class="mensagem-info">
+                    <div class="mensagem-topo"><h3>${c.clienteNome || 'Cliente'}</h3></div>
+                    <div class="mensagem-preview">${c.ultimaMensagem ? c.ultimaMensagem : 'Nenhuma mensagem ainda'}</div>
+                </div>
+            `;
+            item.addEventListener('click', () => {
+                abrirChatComCliente(c.clienteId, c.clienteNome);
+            });
+            lista.appendChild(item);
+        });
+    }, (err) => {
+        console.error(err);
+        lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Erro ao carregar conversas.</p>';
+    });
+};
+
+// ==========================================
+// PESQUISA (tela-6) — lojas e produtos
+// ==========================================
+
+let cacheEmpresasBusca = null;
+let cacheProdutosBusca = null;
+
+async function garantirCacheBusca() {
+    if (cacheEmpresasBusca && cacheProdutosBusca) return;
+    const [empresasSnap, produtosSnap] = await Promise.all([
+        getDocs(collection(db, 'empresas')),
+        getDocs(collection(db, 'produtos'))
+    ]);
+    cacheEmpresasBusca = [];
+    empresasSnap.forEach(d => cacheEmpresasBusca.push({ id: d.id, ...d.data() }));
+    cacheProdutosBusca = [];
+    produtosSnap.forEach(d => { if (d.data().disponivel !== false) cacheProdutosBusca.push({ id: d.id, ...d.data() }); });
+}
+
+function renderizarResultadosBusca(termo) {
+    const container = document.getElementById('pesquisa-resultados');
+    if (!container) return;
+
+    if (!termo) {
+        container.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Digite para buscar lojas e produtos.</p>';
+        return;
+    }
+
+    const t = termo.toLowerCase();
+    const lojas = (cacheEmpresasBusca || []).filter(e => (e.nome || '').toLowerCase().includes(t) || (e.categoria || '').toLowerCase().includes(t));
+    const produtos = (cacheProdutosBusca || []).filter(p => (p.nome || '').toLowerCase().includes(t) || (p.categoria || '').toLowerCase().includes(t));
+
+    if (lojas.length === 0 && produtos.length === 0) {
+        container.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Nenhum resultado encontrado.</p>';
+        return;
+    }
+
+    let html = '';
+    if (lojas.length > 0) {
+        html += '<h3 style="padding:0 4px;">Lojas</h3>';
+        lojas.forEach(l => {
+            html += `
+                <div class="resultado-item" style="cursor:pointer;" onclick="abrirCardapioEmpresa('${l.id}', '${(l.nome||'Loja').replace(/'/g,"\\'")}')">
+                    <div class="resultado-info">
+                        <div class="resultado-titulo"><h4>${l.nome || 'Loja'}</h4></div>
+                        <p>${l.categoria || 'Restaurante'} • ${l.aberto === false ? 'Fechado' : 'Aberto'}</p>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    if (produtos.length > 0) {
+        html += '<h3 style="padding:12px 4px 0;">Produtos</h3>';
+        produtos.forEach(p => {
+            html += `
+                <div class="resultado-item" style="cursor:pointer;" onclick="abrirCardapioEmpresa('${p.empresa}', '${(p.nomeEmpresa||'Loja').replace(/'/g,"\\'")}')">
+                    <div class="resultado-info">
+                        <div class="resultado-titulo"><h4>${p.nome || 'Produto'}</h4></div>
+                        <p>${p.nomeEmpresa || 'Loja'} • ${formatarPreco(p.preco)}</p>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    container.innerHTML = html;
+}
+
+window.inicializarPesquisa = function() {
+    const input = document.getElementById('pesquisa-busca-input');
+    if (!input || input.hasListener) return;
+
+    let timeoutBusca = null;
+    input.addEventListener('input', function(e) {
+        clearTimeout(timeoutBusca);
+        const termo = e.target.value.trim();
+        timeoutBusca = setTimeout(async () => {
+            const container = document.getElementById('pesquisa-resultados');
+            if (termo && container) container.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Buscando...</p>';
+            try {
+                await garantirCacheBusca();
+                renderizarResultadosBusca(termo);
+            } catch (err) {
+                console.error(err);
+                if (container) container.innerHTML = `<p style="text-align:center; padding:20px; color:#888;">${mensagemErro(err)}</p>`;
+            }
+        }, 300);
+    });
+    input.hasListener = true;
+};
+
+// ==========================================
+// NOTIFICAÇÕES (tempo real, cliente e empresa)
+// ==========================================
+
+let unsubscribeNotificacoes = null;
+let telaAnteriorNotificacoes = 'tela-5';
+
+async function criarNotificacao(paraUsuario, dados) {
+    if (!paraUsuario) return;
+    try {
+        await addDoc(collection(db, 'notificacoes'), {
+            paraUsuario,
+            lida: false,
+            criadoEm: serverTimestamp(),
+            ...dados
+        });
+    } catch (err) {
+        console.error('Erro ao criar notificação:', err);
+    }
+}
+
+function observarNotificacoes() {
+    const user = auth.currentUser;
+    if (!user) return;
+    if (unsubscribeNotificacoes) unsubscribeNotificacoes();
+
+    const q = query(
+        collection(db, 'notificacoes'),
+        where('paraUsuario', '==', user.uid),
+        where('lida', '==', false)
+    );
+    unsubscribeNotificacoes = onSnapshot(q, (snap) => {
+        const temNaoLidas = !snap.empty;
+        const pontoCliente = document.getElementById('ponto-notificacao-cliente');
+        const pontoEmpresa = document.getElementById('ponto-notificacao-empresa');
+        if (pontoCliente) pontoCliente.style.display = temNaoLidas ? 'block' : 'none';
+        if (pontoEmpresa) pontoEmpresa.style.display = temNaoLidas ? 'block' : 'none';
+    }, (err) => console.error('Erro ao observar notificações:', err));
+}
+
+window.abrirNotificacoes = function() {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const telaAtiva = document.querySelector('.tela.ativa');
+    telaAnteriorNotificacoes = telaAtiva ? telaAtiva.id : (tipoUsuario === 'empresa' ? 'tela-10' : 'tela-5');
+
+    mudarTela('tela-17');
+
+    const lista = document.getElementById('notificacoes-lista');
+    if (lista) lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Carregando notificações...</p>';
+
+    const q = query(collection(db, 'notificacoes'), where('paraUsuario', '==', user.uid));
+    getDocs(q).then(async (snap) => {
+        if (!lista) return;
+        if (snap.empty) {
+            lista.innerHTML = '<p style="text-align:center; padding:20px; color:#888;">Você não tem notificações.</p>';
+            return;
+        }
+
+        const notifs = [];
+        snap.forEach(d => notifs.push({ id: d.id, ...d.data() }));
+        notifs.sort((a, b) => (b.criadoEm?.seconds || 0) - (a.criadoEm?.seconds || 0));
+
+        const iconePorTipo = {
+            mensagem: 'chat',
+            pedido_novo: 'receipt_long',
+            pedido_status: 'local_shipping'
+        };
+
+        lista.innerHTML = '';
+        notifs.forEach(n => {
+            const item = document.createElement('div');
+            item.style.cssText = `background:#fff; border-radius:12px; padding:14px; display:flex; gap:12px; align-items:flex-start; box-shadow:0 1px 6px rgba(0,0,0,0.06); ${n.lida ? 'opacity:0.6;' : ''} cursor:pointer;`;
+            item.innerHTML = `
+                <div style="width:38px;height:38px;border-radius:50%;background:rgba(229,6,21,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                    <span class="material-symbols-outlined" style="color:var(--primary,#e50615);font-size:20px;">${iconePorTipo[n.tipo] || 'notifications'}</span>
+                </div>
+                <div style="flex:1;">
+                    <strong style="font-size:14px;">${n.titulo || 'Notificação'}</strong>
+                    <p style="margin:4px 0 0; font-size:13px; color:#555;">${n.corpo || ''}</p>
+                </div>
+            `;
+            item.onclick = () => abrirDestinoNotificacao(n);
+            lista.appendChild(item);
+        });
+
+        const naoLidas = notifs.filter(n => !n.lida);
+        for (const n of naoLidas) {
+            try { await updateDoc(doc(db, 'notificacoes', n.id), { lida: true }); } catch (e) { console.error(e); }
+        }
+    }).catch(err => {
+        console.error(err);
+        if (lista) lista.innerHTML = `<p style="text-align:center; padding:20px; color:#888;">${mensagemErro(err)}</p>`;
+    });
+};
+
+function abrirDestinoNotificacao(n) {
+    if (n.tipo === 'mensagem' && n.conversaId) {
+        getDoc(doc(db, 'conversas', n.conversaId)).then(snap => {
+            if (!snap.exists()) { mudarTela(tipoUsuario === 'empresa' ? 'tela-12' : 'tela-7'); return; }
+            const c = snap.data();
+            if (tipoUsuario === 'empresa') {
+                abrirChatComCliente(c.clienteId, c.clienteNome);
+            } else {
+                abrirChatComEmpresa(c.empresaId, c.empresaNome);
+            }
+        }).catch(() => mudarTela(tipoUsuario === 'empresa' ? 'tela-12' : 'tela-7'));
+    } else if (n.pedidoId) {
+        mudarTela(tipoUsuario === 'empresa' ? 'tela-10' : 'tela-7');
+    } else {
+        voltarDeNotificacoes();
+    }
+}
+
+window.voltarDeNotificacoes = function() {
+    mudarTela(telaAnteriorNotificacoes || (tipoUsuario === 'empresa' ? 'tela-10' : 'tela-5'));
+};
+
+// ==========================================
+// INICIALIZAÇÃO
+// ==========================================
+
+let inicializacaoTratada = false;
+
+onAuthStateChanged(auth, (user) => {
+    const tipoSalvo = localStorage.getItem('tipoUsuario');
+
+    if (user && tipoSalvo) {
+        tipoUsuario = tipoSalvo;
+        const nomePerfil = document.getElementById('nomePerfil');
+        const emailPerfil = document.getElementById('emailPerfil');
+        if (nomePerfil) nomePerfil.textContent = user.displayName || 'Usuário';
+        if (emailPerfil) emailPerfil.textContent = user.email || '';
+
+        observarNotificacoes();
+
+        if (!inicializacaoTratada) {
+            inicializacaoTratada = true;
+            if (tipoSalvo === 'cliente') {
+                mudarTela('tela-5');
+                (async () => {
+                    try {
+                        const snap = await getDoc(doc(db, "clientes", user.uid));
+                        if (snap.exists() && snap.data().localidade) {
+                            atualizarLocalidadeHome(snap.data().localidade);
+                        }
+                    } catch (e) { console.error(e); }
+                })();
+            } else if (tipoSalvo === 'empresa') {
+                mudarTela('tela-10');
+            }
+        }
+    } else if (!user && tipoSalvo && inicializacaoTratada === false) {
+        inicializacaoTratada = true;
+        localStorage.removeItem('tipoUsuario');
+        localStorage.removeItem('nomeUsuario');
+        localStorage.removeItem('emailUsuario');
+    }
+});
+
     </script>
 </body>
 </html>
