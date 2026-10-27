@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* ── Perfil: inputs editáveis ── */
+        /* ── Perfil / endereço: inputs editáveis ── */
         .detalhe-input {
             border: none;
             border-bottom: 1.5px solid #e0e0e0;
@@ -24,9 +24,7 @@
             font-family: inherit;
             transition: border-color 0.2s;
         }
-        .detalhe-input:focus {
-            border-bottom-color: var(--primary, #e50615);
-        }
+        .detalhe-input:focus { border-bottom-color: var(--primary, #e50615); }
         .perfil-foto {
             width: 90px;
             height: 90px;
@@ -35,12 +33,7 @@
             background-position: center;
             background-color: #f0f0f0;
         }
-        .perfil-email-sub {
-            font-size: 13px;
-            color: #888;
-            margin-top: 2px;
-            display: block;
-        }
+        .perfil-email-sub { font-size: 13px; color: #888; margin-top: 2px; display: block; }
         .btn-salvar-perfil {
             display: flex;
             align-items: center;
@@ -58,9 +51,7 @@
             cursor: pointer;
             font-family: inherit;
         }
-        .btn-salvar-perfil:active {
-            opacity: 0.85;
-        }
+        .btn-salvar-perfil:active { opacity: 0.85; }
     </style>
 </head>
 <body>
@@ -364,21 +355,18 @@
             <section id="tela-9" class="tela">
                 <div class="perfil-cabecalho"><h1>Meu Perfil</h1></div>
 
-                <!-- Foto + nome + e-mail -->
                 <div class="perfil-conteudo">
                     <div class="perfil-foto-container">
                         <div class="perfil-foto" id="perfilFotoEl"></div>
                         <button class="btn-camera" onclick="document.getElementById('inputFotoPerfil').click()">
                             <span class="material-symbols-outlined">camera_alt</span>
                         </button>
-                        <!-- Input oculto para selecionar imagem da galeria -->
                         <input type="file" id="inputFotoPerfil" accept="image/*" style="display:none;">
                     </div>
                     <h2 id="nomePerfil">Carregando...</h2>
                     <span class="perfil-email-sub" id="emailPerfil"></span>
                 </div>
 
-                <!-- Campos editáveis -->
                 <div class="perfil-detalhes">
                     <div class="detalhe-item">
                         <div class="detalhe-icone"><span class="material-symbols-outlined">call</span></div>
@@ -396,7 +384,6 @@
                     </div>
                 </div>
 
-                <!-- Botão salvar -->
                 <button onclick="salvarPerfil()" class="btn-salvar-perfil">
                     <span class="material-symbols-outlined">save</span>
                     Salvar Alterações
@@ -415,7 +402,6 @@
                     <button class="nav-item ativo"><span class="material-symbols-outlined">person</span><span>Perfil</span></button>
                 </nav>
             </section>
-
             <!-- TELA 10: MINHA LOJA (pedidos em tempo real) -->
             <section id="tela-10" class="tela">
                 <div class="loja-header" style="display:flex; align-items:center; justify-content:space-between;">
@@ -475,7 +461,6 @@
                     <div class="card-loja"><div class="icone-loja"><span class="material-symbols-outlined">store</span></div><div class="info-loja"><h3 id="ajustes-nome-loja">Minha Loja</h3><span id="ajustes-cnpj-loja">CNPJ: —</span></div></div>
                     <div class="ajustes-lista"><div class="ajustes-item" onclick="abrirDadosDaLoja()"><div class="item-esquerda"><span class="material-symbols-outlined">store</span><p>Dados da Loja</p></div><span class="material-symbols-outlined seta">chevron_right</span></div></div>
 
-                    <!-- Formulário de dados da loja (oculto até o usuário clicar) -->
                     <div id="form-dados-loja" style="display:none; padding:16px;">
                         <div class="campo-input-produto">
                             <label>Nome da Loja</label>
@@ -614,7 +599,6 @@
                     <div id="listaProdutosCliente" class="produtos-cliente-grid"></div>
                 </div>
 
-                <!-- Barra do carrinho (some quando vazio) -->
                 <div id="barra-carrinho" style="display:none; position:sticky; bottom:64px; margin:0 16px 10px; background:var(--primary,#e50615); color:#fff; border-radius:14px; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 4px 14px rgba(0,0,0,0.18); cursor:pointer;" onclick="abrirResumoCarrinho()">
                     <span id="carrinho-resumo-texto">0 itens</span>
                     <span style="display:flex; align-items:center; gap:6px; font-weight:700;">Ver sacola <span class="material-symbols-outlined">shopping_bag</span></span>
@@ -628,7 +612,7 @@
                 </nav>
             </section>
 
-            <!-- TELA 16: LISTA DE EMPRESAS (nova) -->
+            <!-- TELA 16: LISTA DE EMPRESAS -->
             <section id="tela-16" class="tela">
                 <div class="tela-cabecalho">
                     <button onclick="mudarTela('tela-5')" class="btn-voltar">
@@ -649,7 +633,7 @@
                 </nav>
             </section>
 
-            <!-- TELA 17: NOTIFICAÇÕES (nova, comum a cliente e empresa) -->
+            <!-- TELA 17: NOTIFICAÇÕES -->
             <section id="tela-17" class="tela">
                 <div class="tela-cabecalho">
                     <button onclick="voltarDeNotificacoes()" class="btn-voltar">
@@ -676,14 +660,14 @@
                     </div>
 
                     <div class="checkout-card checkout-lista">
-                        <button class="checkout-linha" onclick="mudarTela('tela-9')">
+                        <!-- CORRIGIDO: endereço digitado aqui mesmo, sem precisar ir ao Perfil -->
+                        <div class="checkout-linha" style="cursor:default;">
                             <span class="material-symbols-outlined checkout-ico">location_on</span>
                             <span class="checkout-texto">
                                 <strong>Endereço de entrega</strong>
-                                <span id="checkout-endereco">Carregando...</span>
+                                <input id="checkout-endereco-input" class="detalhe-input" type="text" placeholder="Rua, número, bairro, cidade">
                             </span>
-                            <span class="material-symbols-outlined checkout-seta">chevron_right</span>
-                        </button>
+                        </div>
                         <div class="checkout-linha">
                             <span class="material-symbols-outlined checkout-ico">two_wheeler</span>
                             <span class="checkout-texto">
@@ -922,13 +906,10 @@ function traduzirErroAuth(err) {
     }
 }
 
-// Leva da tela de login para o cadastro certo (cliente ou empresa),
-// respeitando o tipo escolhido na tela de seleção de acesso.
 window.irParaCadastro = function() {
     irParaCadastroTipo(tipoUsuario === 'empresa' ? 'empresa' : 'cliente');
 };
 
-// Alterna entre "Sou Cliente" / "Sou Empresa" dentro do próprio cadastro
 window.irParaCadastroTipo = function(tipo) {
     tipoUsuario = tipo;
     const destino = tipo === 'empresa' ? 'tela-4' : 'tela-3';
@@ -1233,8 +1214,6 @@ window.toggleStatusLoja = async function() {
     const novoEstado = !lojaAbertaAtual;
     try {
         await updateDoc(doc(db, "empresas", user.uid), { aberto: novoEstado });
-        // A UI é atualizada pelo listener onSnapshot acima assim que a
-        // escrita é confirmada — mantém tudo consistente entre abas/dispositivos.
     } catch (err) {
         console.error(err);
         toast('Erro ao atualizar status da loja: ' + err.message, true);
@@ -1796,31 +1775,55 @@ function gerarPixCopiaECola({ chave, nome, cidade, valor, txid }) {
         '6304';
     return payload + crc16(payload);
 }
-
-// ==========================================
+        // ==========================================
 // TELA 18: FINALIZAR PEDIDO / TELA 19: FORMA DE PAGAMENTO
+// (CORRIGIDO: endereço digitado na própria tela e salvo no clique)
 // ==========================================
 
 let enderecoCheckout = '';
 
 window.preencherCheckout = async function() {
-    const el = document.getElementById('checkout-endereco');
+    const input = document.getElementById('checkout-endereco-input');
     const user = auth.currentUser;
-    if (!el || !user) return;
+    if (!input || !user) return;
     try {
         const snap = await getDoc(doc(db, 'clientes', user.uid));
         enderecoCheckout = snap.exists() ? (snap.data().localidade || '').trim() : '';
     } catch (e) { enderecoCheckout = ''; }
-    el.textContent = enderecoCheckout || 'Toque para informar seu endereço';
+    input.value = enderecoCheckout;
 };
 
-window.irParaPagamento = function() {
+window.irParaPagamento = async function() {
     if (quantidadeTotalCarrinho() === 0) { toast('Sua sacola está vazia.', true); return; }
-    if (!enderecoCheckout) {
-        toast('Informe seu endereço no perfil para continuar.', true);
-        mudarTela('tela-9');
+
+    const user = auth.currentUser;
+    if (!user) { toast('Você precisa estar logado.', true); return; }
+
+    const input = document.getElementById('checkout-endereco-input');
+    const endereco = (input?.value || '').trim();
+    if (!endereco) {
+        toast('Informe o endereço de entrega para continuar.', true);
+        input?.focus();
         return;
     }
+
+    try {
+        // salva já no perfil, assim o pedido e a home usam o mesmo endereço
+        await setDoc(doc(db, 'clientes', user.uid), {
+            uid: user.uid,
+            nome: user.displayName || '',
+            email: user.email || '',
+            localidade: endereco,
+            atualizadoEm: serverTimestamp()
+        }, { merge: true });
+        enderecoCheckout = endereco;
+        atualizarLocalidadeHome(endereco);
+    } catch (e) {
+        console.error(e);
+        toast('Erro ao salvar endereço: ' + e.message, true);
+        return;
+    }
+
     mudarTela('tela-19');
 };
 
@@ -1870,9 +1873,10 @@ window.confirmarPedidoCarrinho = async function() {
             }
         } catch (e) { console.error(e); }
 
+        if (!clienteLocalidade.trim()) clienteLocalidade = enderecoCheckout || '';
         if (!clienteLocalidade.trim()) {
-            toast('Informe seu endereço no perfil para continuar.', true);
-            mudarTela('tela-9');
+            toast('Informe o endereço de entrega para continuar.', true);
+            mudarTela('tela-18');
             return;
         }
 
@@ -1977,7 +1981,6 @@ function itensParaTexto(pedido) {
     if (Array.isArray(pedido.itens) && pedido.itens.length > 0) {
         return pedido.itens.map(i => `${i.quantidade}x ${i.nome}`).join('<br>');
     }
-    // compatibilidade com pedidos antigos (item único)
     return `1x ${pedido.nomeProduto || 'Item'}`;
 }
 
@@ -2386,9 +2389,6 @@ function gerarConversaId(uidCliente, uidEmpresa) {
     return [uidCliente, uidEmpresa].sort().join('_');
 }
 
-// A tela de chat (tela-8) é compartilhada entre cliente e empresa.
-// Aqui montamos o menu certo (e o botão de voltar certo) de acordo
-// com quem está usando o chat no momento.
 function aplicarNavegacaoChat(souEmpresa) {
     const nav = document.getElementById('chat-nav');
     const btnVoltar = document.getElementById('chat-btn-voltar');
